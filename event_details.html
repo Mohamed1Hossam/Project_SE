@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="Style.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css"/>
+    <script src="Script.js"></script>
+    <title>Event Details</title>
+    <script defer>
+    </script>
+</head>
+<body class="home-page" >
+<!-- Header/Navigation -->
+<header>
+    <div class="container header-content">
+        <div class="logo">
+            <div class="logo-circle">
+                <div class="icon-heart"></div>
+            </div>
+            <div class="logo-text">
+                <h1>Children of the <span>Land</span></h1>
+                <p>Empowering communities together</p>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="#">
+                <div class="icon-globe"></div>
+                <span>Campaigns</span>
+            </a>
+            <a href="#">
+                <div class="icon-calculator"></div>
+                <span>Calculate Zakat</span>
+            </a>
+            <a href="#">
+                <div class="icon-landmark"></div>
+                <span>Financial Aid</span>
+            </a>
+            <a href="#">
+                <div class="icon-user"></div>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+</header>
+<main class="event-details-container">
+    <section class="event-section card">
+        <h2>Event Name</h2>
+        <p id="eventName"></p> 
+    </section>
+
+    <section class="event-section card">
+        <h2>Date</h2>
+        <p id="eventDate"></p>
+    </section>
+
+    <section class="event-section card">
+        <h2>Time</h2>
+        <p id="eventTime"></p>
+    </section>
+
+    <section class="event-section card">
+        <h2>Location</h2>
+        <p id="eventLocation"></p>
+    </section>
+
+    <section class="event-section card">
+        <h2>Description</h2>
+        <p id="eventDescription"></p>
+    </section>
+
+    <section class="event-section card">
+        <h2>Organizer</h2>
+        <p id="eventOrganizer"></p>
+    </section>
+    <button id="campaignBtn" class="detailsButton">Go to Campaign Details</button>
+</main>
+<script src="Script.js"></script>
+</body>

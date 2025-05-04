@@ -563,5 +563,155 @@ footer {
     }    
    .nav-links span {
         display: none;
-    }
+    }    
+}
+
+/*---------------------------------------------------- New Styles ----------------------------------------------------*/
+
+/* Header Styling */
+.header {
+    background-color: var(--white-color); /* White background */
+    box-shadow: 0 2px 4px var(--box-shadow-color); /* Subtle shadow */
+    padding: 15px 20px; /* Add horizontal padding */
+    position: sticky; /* Make the header sticky */
+    top: 0; /* Stick to the top */
+    z-index: 10;
+    width: 100%; /* Make the header width 100% */
+}
+
+/* Table Styling */
+.event-table-container {
+    margin-top: 20px; /* Margin from the top */
+    overflow-x: auto; /* Horizontal scroll for smaller screens */
+    width: 90%;
+    margin-left: 5%;
+}
+
+.event-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    
+}
+
+.event-table th,
+.event-table td {
+    padding: 12px 15px; /* Increased padding */
+    border: 1px solid #ddd; /* Lighter border */
+    text-align: center;
+}
+
+.event-table th {
+    background-color: #f0f0f0; /* Light gray background for header */
+    font-weight: bold;
+}
+
+.event-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+.event-table tbody tr:hover {
+    background-color: #f5f5f5; /* Hover effect */
+}
+/* Event and Campaign cards */
+.card {
+    background-color: var(--white-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Event Details Styling */
+.event-details-container {
+    max-width: 800px;
+    margin: 30px auto; /* Centering with margin */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+
+.event-details-container h2 {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.event-details-container p {
+    margin-bottom: 15px;
+    color: var(--dark-gray);
+}
+.event-section{
+    background-color: #f9f9f9; /* Light gray background for event section */
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.event-section p{
+    width: 90%;
+}
+
+/* Campaign Details Styling */
+.campaign-details-container {
+    max-width: 800px;
+    margin: 30px auto; /* Centering with margin */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+
+.campaign-details-container h2 {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.campaign-details-container p {
+    margin-bottom: 15px;
+    color: var(--dark-gray);
+}
+
+.campaign-section{
+    background-color: #f9f9f9; /* Light gray background for campaign section */
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.campaign-section p {
+    width: 90%;
+}
+/* Progress Bar Styling */
+.progress-bar {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    height: 20px; /* Fixed height */
+}
+
+.progress {
+    background-color: #4CAF50; /* Updated color */
+    height: 100%;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px; /* Vertically center text */
+    color: white;
+}
+
+/*Button hover effect*/
+.detailsButton{
+    background-color: #f0f0f0; /* Light gray background for button */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.detailsButton:hover{
+    background-color: var(--primary-color); /* Change color on hover */
+    color: var(--white-color);
+}
+
+/*event and campaign name*/
+#campaign-name, #eventName{
+    margin-bottom: 20px;
 }
