@@ -102,12 +102,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // If on register page: validate phone, confirm password, password length
             if (registerForm) {
-                const phoneRegex = /^[+0-9]{10,15}$/;
-                if (!phoneRegex.test(phone)) {
-                    alert('Please enter a valid phone number.');
-                    event.preventDefault();
-                    return;
-                }
+            //    const phoneRegex =/^[+0-9]{10,15}$/;
+            //    if (!phoneRegex.test(phone)) {
+            //        alert('Please enter a valid phone number.');
+            //        event.preventDefault();
+            //        return;
+            //    }
 
                 if (password !== confirmPassword) {
                     alert('Passwords do not match.');
