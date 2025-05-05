@@ -1,109 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CharityHub - Register</title>
-    <link rel="stylesheet" href="Style.css">
-    <script src="Script.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CharityHub - Register</title>
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f4f6;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .register-section {
+      width: 50%;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #ffffff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      height: 100vh;
+    }
+
+    .hero-section {
+      width: 50%;
+      overflow: hidden;
+    }
+
+    .hero-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .logo-circle {
+      width: 55px;
+      height: 55px;
+      background-color: #1b9c85;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+
+    .logo-text h1 {
+      font-size: 24px;
+      color: #222;
+    }
+
+    .logo-text span {
+      color: #1b9c85;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    p.subtext {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .input-container {
+      background-color: #f0f0f0;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .input-container input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .btn-primary {
+      background-color: #1b9c85;
+      color: #fff;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      height: 45px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #158e77;
+    }
+
+    .login-prompt {
+      margin-top: 25px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+    }
+
+    .login-link {
+      color: #1b9c85;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 960px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .register-section, .hero-section {
+        width: 100%;
+      }
+
+      .hero-section img {
+        height: 250px;
+      }
+
+      .register-section {
+        padding: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="register-wrapper">
-    <div class="login-container">
-        <div class="logo-container">
-            <div class="logo-circle">    
-                <div class="icon-heart"></div>
-            </div>
-            <div class="logo-text">
-                <h1>Children of the <span>Land</span></h1>
-                <p>Empowering communities together</p>
-            </div>
-        </div>
 
-        <div class="welcome-back">
-            <h1>Create an Account</h1>
-            <p>Join us in making a difference</p>
-        </div>
-        
-        <form id="registerForm" action="register_process.php" method="POST">
-            <div class="form-group">
-                <label for="first_name">First Name</label>
-                <div class="input-container">
-                    <div class="icon-user" id="input_icon"></div>
-                    <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <div class="input-container">
-                    <div class="icon-user" id="input_icon"></div>
-                    <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-container">
-                    <div class="icon-mail" id="input_icon"></div>
-                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="phone_number">Phone Number</label>
-                <div class="input-container">
-                    <div class="icon-phone" id="input_icon"></div>
-                    <input type="tel" id="phone_number" name="phone_number" placeholder="+1234567890" pattern="[+0-9]{10,15}" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-container">
-                    <div class="icon-lock" id="input_icon"></div>
-                    <input type="password" id="password" name="password" placeholder="Create a password" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="confirm_password">Confirm Password</label>
-                <div class="input-container">
-                    <div class="icon-lock" id="input_icon"></div>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-primary">Sign up</button>
-        </form>
-
-        <div class="divider">
-            <span>Or sign up with</span>
-        </div>
-
-        <div class="social-login">
-            <button class="social-btn" type="button">
-                <div class="icon-twitter" id="social-icon"></div> Twitter
-            </button>
-            <button class="social-btn" type="button">
-                <div class="icon-facebook" id="social-icon"></div> Facebook
-            </button>
-        </div>
-
-        <p class="signup-prompt">
-            Already have an account? <a href="login.html" class="signup-link">Sign in</a>
-        </p>
+<div class="container">
+  <div class="register-section">
+    <div class="logo-container">
+      <div class="logo-circle"></div>
+      <div class="logo-text">
+        <h1>Children of the <span>Land</span></h1>
+      </div>
     </div>
 
-    <div class="hero-image">
-        <div class="hero-content">
-            <h1 class="hero-title">"Make a difference today for a better tomorrow"</h1>
-            <p class="hero-subtitle">Join thousands making a global impact</p>
+    <h2>Create Your Account</h2>
+    <p class="subtext">Join us in making a difference</p>
+
+    <form action="register_process.php" method="POST">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <div class="input-container">
+          <input type="text" id="firstName" name="firstName" required placeholder="Your first name">
         </div>
-    </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <div class="input-container">
+          <input type="text" id="lastName" name="lastName" required placeholder="Your last name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <div class="input-container">
+          <input type="tel" id="phone" name="phone" required placeholder="+20 123 456 7890">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-container">
+          <input type="email" id="email" name="email" required placeholder="your@email.com">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-container">
+          <input type="password" id="password" name="password" required placeholder="Create a password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-container">
+          <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repeat your password">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary">Register</button>
+    </form>
+
+    <p class="login-prompt">
+      Already have an account? <a href="login.html" class="login-link">Sign in</a>
+    </p>
+  </div>
+
+  <div class="hero-section">
+    <img src="assets/Login.jpeg" alt="Charity image">
+  </div>
 </div>
+
 </body>
 </html>
