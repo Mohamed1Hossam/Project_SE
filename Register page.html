@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CharityHub - Register</title>
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -25,13 +26,13 @@
 
     .register-section {
       width: 50%;
-      padding: 60px;
+      padding: 40px 60px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       background-color: #ffffff;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
       height: 100vh;
+      overflow-y: auto;
     }
 
     .hero-section {
@@ -45,22 +46,28 @@
       object-fit: cover;
     }
 
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
     .logo-container {
       display: flex;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
     .logo-circle {
-      width: 55px;
-      height: 55px;
+      width: 60px;
+      height: 60px;
       background-color: #1b9c85;
       border-radius: 50%;
-      margin-right: 12px;
+      margin-right: 14px;
     }
 
     .logo-text h1 {
-      font-size: 24px;
+      font-size: 28px;
       color: #222;
     }
 
@@ -69,39 +76,43 @@
     }
 
     h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 32px;
+      margin-bottom: 12px;
       color: #333;
     }
 
     p.subtext {
       color: #666;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
+      font-size: 16px;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 600;
       color: #444;
+      font-size: 16px;
     }
 
     .input-container {
       background-color: #f0f0f0;
-      padding: 10px 14px;
+      padding: 14px 16px;
       border-radius: 6px;
       border: 1px solid #ddd;
+      display: flex;
+      align-items: center;
     }
 
     .input-container input {
       width: 100%;
       border: none;
       background: transparent;
-      font-size: 15px;
+      font-size: 16px;
       outline: none;
     }
 
@@ -109,13 +120,13 @@
       background-color: #1b9c85;
       color: #fff;
       border: none;
-      padding: 14px;
+      padding: 16px;
       width: 100%;
-      height: 45px;
-      font-size: 16px;
+      height: 52px;
+      font-size: 18px;
       font-weight: 600;
-      border-radius: 6px;
-      margin-top: 10px;
+      border-radius: 8px;
+      margin-top: 16px;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -125,16 +136,36 @@
     }
 
     .login-prompt {
-      margin-top: 25px;
-      font-size: 14px;
+      margin-top: 32px;
+      font-size: 16px;
       color: #666;
       text-align: center;
+      margin-bottom: 0;
     }
 
     .login-link {
       color: #1b9c85;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
+    }
+
+    .password-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .password-toggle:hover {
+      color: #1b9c85;
+    }
+
+    .material-icons {
+      font-size: 22px;
     }
 
     @media (max-width: 960px) {
@@ -152,6 +183,25 @@
 
       .register-section {
         padding: 30px;
+        height: auto;
+        min-height: 100vh;
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+      .input-container {
+        padding: 12px 14px;
+      }
+      
+      h2 {
+        font-size: 28px;
+      }
+      
+      .btn-primary {
+        height: 48px;
+        font-size: 16px;
       }
     }
   </style>
@@ -160,17 +210,18 @@
 
 <div class="container">
   <div class="register-section">
-    <div class="logo-container">
-      <div class="logo-circle"></div>
-      <div class="logo-text">
-        <h1>Children of the <span>Land</span></h1>
+    <div class="content-wrapper">
+      <div class="logo-container">
+        <div class="logo-circle"></div>
+        <div class="logo-text">
+          <h1>Children of the <span>Land</span></h1>
+        </div>
       </div>
-    </div>
 
-    <h2>Create Your Account</h2>
-    <p class="subtext">Join us in making a difference</p>
+      <h2>Create Your Account</h2>
+      <p class="subtext">Join us in making a difference</p>
 
-    <form action="register_process.php" method="POST">
+      <form action="register_process.php" method="POST">
       <div class="form-group">
         <label for="firstName">First Name</label>
         <div class="input-container">
@@ -188,7 +239,7 @@
       <div class="form-group">
         <label for="phone">Phone Number</label>
         <div class="input-container">
-          <input type="tel" id="phone" name="phone" required placeholder="+20 123 456 7890">
+          <input type="tel" id="phone" name="phone" required placeholder="+20 123 456 7890" pattern="[0-9+ ]+" title="Only numbers, spaces, and + are allowed">
         </div>
       </div>
 
@@ -203,6 +254,9 @@
         <label for="password">Password</label>
         <div class="input-container">
           <input type="password" id="password" name="password" required placeholder="Create a password">
+          <button type="button" class="password-toggle" onclick="togglePassword('password')">
+            <span class="material-icons">visibility_off</span>
+          </button>
         </div>
       </div>
 
@@ -210,6 +264,9 @@
         <label for="confirmPassword">Confirm Password</label>
         <div class="input-container">
           <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repeat your password">
+          <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+            <span class="material-icons">visibility_off</span>
+          </button>
         </div>
       </div>
 
@@ -219,12 +276,29 @@
     <p class="login-prompt">
       Already have an account? <a href="login.html" class="login-link">Sign in</a>
     </p>
+    </div>
   </div>
 
   <div class="hero-section">
     <img src="assets/Login.jpeg" alt="Charity image">
   </div>
 </div>
+
+<script>
+  function togglePassword(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleButton = passwordInput.nextElementSibling;
+    const toggleIcon = toggleButton.querySelector('.material-icons');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.textContent = 'visibility';
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.textContent = 'visibility_off';
+    }
+  }
+</script>
 
 </body>
 </html>
