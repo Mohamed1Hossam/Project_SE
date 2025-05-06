@@ -1,16 +1,21 @@
 <?php
 require 'db.php';
+require 'Event.php';
+
+// Create an Event object
+$event = new Event($pdo);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $stmt = $pdo->prepare("INSERT INTO event (name, campaign_id, location, description, event_date, status) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([
-        $_POST['name'],
-        $_POST['campaign_id'],
-        $_POST['location'],
-        $_POST['description'],
-        $_POST['event_date'],
-        $_POST['status']
-    ]);
+    $name = $_POST['name'];
+    $campaign_id = $_POST['campaign_id'];
+    $location = $_POST['location'];
+    $description = $_POST['description'];
+    $event_date = $_POST['event_date'];
+    $status = $_POST['status'];
+
+    // Add the event using the Event class method
+    $event->addEvent($name, $campaign_id, $location, $description, $event_date, $status);
+
     header("Location: manage_events.php?success=1");
     exit;
 }
@@ -19,8 +24,10 @@ $campaigns = $pdo->query("SELECT campaign_id, name FROM campaign")->fetchAll();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Event</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -64,7 +71,6 @@ $campaigns = $pdo->query("SELECT campaign_id, name FROM campaign")->fetchAll();
         <button type="submit" class="btn btn-primary">Save Event</button>
         <a href="manage_events.php" class="btn btn-success">Manage Events</a>
         <p><a href="dashboard.php" class="btn btn-secondary my-2">Back To Dashboard</a></p>
-
     </form>
 </div>
 </body>

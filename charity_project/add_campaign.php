@@ -1,4 +1,12 @@
-<?php include 'db.php'; ?>
+<?php
+require_once 'Campaign.php';
+$campaign = new Campaign();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $campaign->add($_POST);
+    echo '<p class="alert position-fixed top-0 start-10 end-10 alert-success alert-dismissible fade show mb-0 rounded-0" role="alert">✅ Campaign added successfully!👌👌👌👌</p>';
+}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -8,9 +16,7 @@
     <link rel="stylesheet" href="bootstrap.min.css">
 </head>
 <body>
-<h2 class="text-center ">Add New Campaign</h2>
-
-
+<h2 class="text-center">Add New Campaign</h2>
 
 <form method="post" class="container" action="">
 
@@ -49,24 +55,6 @@
   <p><a href="dashboard.php" class="btn btn-secondary my-2">Back To Dashboard</a></p>
 </form>
 
-
-
-
-<?php
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $stmt = $pdo->prepare("INSERT INTO campaign (name, description, target_amount, start_date, end_date, admin_id) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([
-        $_POST['name'],
-        $_POST['description'],
-        $_POST['target_amount'],
-        $_POST['start_date'],
-        $_POST['end_date'],
-        1 // Replace with actual logged-in admin ID
-    ]);
-    echo '<p class="alert  position-fixed top-0 start-10 end-10   alert-success alert-dismissible fade show mb-0 rounded-0" role="alert">✅ Campaign added successfully!👌👌👌👌</p>';
-}
-?>
 <script src="bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

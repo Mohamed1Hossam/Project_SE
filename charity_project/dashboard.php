@@ -60,6 +60,7 @@ $totalDonations = ($oneTime ?: 0) + ($recurring ?: 0);
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
  <link rel="stylesheet" href="style.css"> 
   <link rel="stylesheet" href="bootstrap.min.css">
+
   <title>Charity Dashboard</title>
  
 </head>
@@ -72,7 +73,7 @@ $totalDonations = ($oneTime ?: 0) + ($recurring ?: 0);
         <div class="card">Total Donations: <strong>$<?= number_format($totalDonations, 2) ?></strong></div>
     </div> -->
 <div class="d-flex justify-content-center align-items-center flex-column">
- <h2 class="text-center">Charity Management Dashboard</h2>
+ <h2 class="text-center">Mersal Dashboard</h2>
  <div class="underline1"></div>
  <div class="underline2"></div>
  <div class="underline3"></div>
@@ -136,15 +137,46 @@ $totalDonations = ($oneTime ?: 0) + ($recurring ?: 0);
     <h1 class="card-title">Delete Event</h1>
   </div>
 </div></a>
-<a href="send_emails.php" class="text-black text-decoration-none">
+<a href="form.html" class="text-black text-decoration-none">
 
 <div class="card custom-hover border  m-5 h-75 "style="width: 400px;">
   <div class="card-body text-center">
     <h1 class="card-title">Send Emails</h1>
   </div>
 </div></a>
+<a id="downloadReport"  href="" class="text-black text-decoration-none">
+
+<div class="card custom-hover border  m-5 h-75 "style="width: 400px;">
+  <div class="card-body text-center">
+  <h1 class="card-title">Download Report</h1>
+  </div>
+</div></a>
+
+
 
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  document.getElementById('downloadReport').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    let y = 20;
+    doc.setFontSize(16);
+    doc.text("Mersal Dashboard Report", 20, y);
+    y += 10;
+
+    doc.setFontSize(12);
+    doc.text("Volunteer(s): <?= $volunteerCount ?>", 20, y += 10);
+    doc.text("Campaign(s): <?= $campaignCount ?>", 20, y += 10);
+    doc.text("Event(s): <?= $eventCount ?>", 20, y += 10);
+    doc.text("Total Donations: $<?= number_format($totalDonations, 2) ?>", 20, y += 10);
+
+    doc.save("dashboard_report.pdf");
+  });
+</script>
+
+
 </body>
 
 </html>
