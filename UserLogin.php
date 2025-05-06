@@ -12,6 +12,7 @@ class UserLogin {
     }
 
     public function login() {
+        // Updated SQL query to match column names in the User table
         $sql = "SELECT user_id, email, password, first_name, is_donor, is_volunteer FROM User WHERE email = ?";
 
         if ($stmt = $this->conn->prepare($sql)) {

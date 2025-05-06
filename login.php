@@ -1,3 +1,33 @@
+<?php 
+// login.php - User Login Handler
+
+session_start();  // Make sure session is started at the beginning
+require_once 'config.php';  // Include the database connection
+require_once 'UserLogin.php';  // Include the UserLogin class
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get email and password from the form
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    // Instantiate the UserLogin class, passing the necessary parameters
+    $userLogin = new UserLogin($conn, $email, $password);
+
+    // Call the login method to attempt login
+    $errors = $userLogin->login();
+
+    // If there are errors, set them in the session and redirect
+    if (!empty($errors)) {
+        $_SESSION['login_errors'] = $errors;
+        $_SESSION['form_data'] = ['email' => $email];
+        header("location: login.php");  // Exact filename with space
+        exit;
+    } else {
+        // Login successful - redirected in the UserLogin class
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,18 +55,18 @@
             </div>
         </div>
 
-        
         <div class="welcome-back">
             <h1>Welcome Back</h1>
             <p>Login to continue your charitable journey</p>
         </div>
         
-        <form id="loginForm" action="login_process.php" method="POST">
+        <form id="loginForm" action="login.php" method="POST">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <div class="input-container">
                     <div class="icon-mail" id="input_icon"></div>
-                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required 
+                           value="<?php echo isset($_SESSION['form_data']['email']) ? htmlspecialchars($_SESSION['form_data']['email']) : ''; ?>">
                 </div>
             </div>
             
@@ -83,3 +113,6 @@
             <p class="hero-subtitle">Join thousands making a global impact</p>
         </div>
     </div>
+    
+</body>
+</html>

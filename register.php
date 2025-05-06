@@ -1,3 +1,60 @@
+<?php 
+// register.php - User Registration Handler
+
+session_start();  // Make sure session is started at the beginning
+require_once 'config.php';  // Include the database connection
+require_once 'UserRegistration.php';  // Include the UserRegistration class
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Map form field names to the expected parameter names
+    $first_name = $_POST['firstName'];
+    $last_name = $_POST['lastName'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirmPassword'];
+    $phone_number = $_POST['phone'];
+    
+    // Optional checkboxes - not in your current form, but included for completeness
+    $is_donor = isset($_POST['is_donor']) ? 1 : 0;
+    $is_volunteer = isset($_POST['is_volunteer']) ? 1 : 0;
+
+    // Instantiate the UserRegistration class, passing the necessary parameters
+    $registration = new UserRegistration(
+        $conn,
+        $first_name,
+        $last_name,
+        $email,
+        $password,
+        $confirm_password,
+        $phone_number,
+        $is_donor,
+        $is_volunteer
+    );
+
+    // Call the register method to perform the registration
+    $errors = $registration->register();
+
+    // If there are errors, set them in the session and redirect
+    if (!empty($errors)) {
+        $_SESSION['register_errors'] = $errors;
+        $_SESSION['form_data'] = [
+            'firstName' => $first_name,
+            'lastName' => $last_name,
+            'email' => $email,
+            'phone' => $phone_number
+        ];
+        header("location: register.php");  // Exact filename with space
+        exit;
+    } else {
+        // Redirect on success
+        $_SESSION['register_success'] = "Registration successful! Please log in.";
+        header("location: login.php");
+        exit;
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -232,7 +289,7 @@
       <h2>Create Your Account</h2>
       <p class="subtext">Join us in making a difference</p>
 
-      <form action="register_process.php" method="POST">
+      <form action="register.php" method="POST">
       <div class="form-group">
         <label for="firstName">First Name</label>
         <div class="input-container">
@@ -250,7 +307,7 @@
       <div class="form-group">
         <label for="phone">Phone Number</label>
         <div class="input-container">
-          <input type="tel" id="phone" name="phone" required placeholder="+20 123 456 7890" pattern="[0-9+ ]+" title="Only numbers, spaces, and + are allowed">
+          <input type="tel" id="phone" name="phone" required placeholder="0 123 456 7890" pattern="[0-9+ ]+" title="Only numbers, spaces, and + are allowed">
         </div>
       </div>
 
@@ -285,7 +342,7 @@
     </form>
 
     <p class="login-prompt">
-      Already have an account? <a href="LoginPage.html" class="login-link">Sign in</a>
+      Already have an account? <a href="login.html" class="login-link">Sign in</a>
     </p>
     </div>
   </div>
