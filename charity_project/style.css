@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+form input, form textarea {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 300px;
+}
+
+.temp i{
+    font-size: 50px !important;
+    border-radius: 50%;
+    border: 10px solid #fff;
+    width: 100px;
+    padding: 10px 0;
+    height: 100px;
+    color: #fff;
+   
+}
