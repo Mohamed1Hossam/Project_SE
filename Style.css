@@ -159,7 +159,7 @@ label {
     color: var(--dark-gray);
 }
 
-#password_icon {
+#password_icon{
     position: absolute;
     right: 1rem;
     top: 50%;
