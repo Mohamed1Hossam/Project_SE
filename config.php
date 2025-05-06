@@ -9,8 +9,8 @@ if (session_status() === PHP_SESSION_NONE) {
 // Database credentials
 $host = "localhost";
 $user = "root";
-$pass = "your_new_password";
-$db   = "login";
+$pass = "";
+$db   = "charitymangement";
 
 // Create connection
 $conn = new mysqli($host, $user, $pass, $db);

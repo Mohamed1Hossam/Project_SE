@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If there are errors, set them in the session and redirect
     if (!empty($errors)) {
         $_SESSION['register_errors'] = $errors;
-        header("location: RegisterPage.html");  // Adjust URL to your actual page
+        header("location: Register Page.html");  // Adjust URL to your actual page
         exit;
     } else {
         // Optionally redirect on success or give a success message
