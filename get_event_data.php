@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+include 'config.php';
 
 // Handle JSON request (e.g., for fetch)
 if (isset($_GET['json'])) {
@@ -13,17 +13,6 @@ if (isset($_GET['json'])) {
     } else {
         $stmt = $conn->prepare("SELECT event_id AS id, name, description, campaign_id FROM event");
     }
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $events = [];
-    while ($row = $result->fetch_assoc()) {
-        $events[] = $row;
-    }
-
-    echo json_encode($events);
-    exit();
 }
 ?>
 
@@ -35,6 +24,7 @@ if (isset($_GET['json'])) {
   <script src="Script.js"></script>
   <link rel="stylesheet" href="Style.css" />
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
+  <link rel="stylesheet" href="charity_project/bootstrap.min.css">
   <title>Event Page</title>
 </head>
 <body class="home-page">
@@ -66,9 +56,29 @@ if (isset($_GET['json'])) {
             <th>Name</th>
             <th>Description</th>
             <th>Campaign ID</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody id="eventTableBody"></tbody>
+        <tbody id="eventTableBody">
+        <?php
+        $sql = "SELECT event_id as id, name, description, campaign_id FROM event";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['description']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['campaign_id']) . "</td>";
+                echo "<td><a href='get_event_details.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-primary'>View Details</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No events found.</td></tr>";
+        }
+        ?>
+        </tbody>
       </table>
     </div>
   </section>

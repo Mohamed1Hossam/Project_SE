@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'connect.php';
+require_once 'config.php';
 
 $campaignData = null;
 $errorMessage = '';
@@ -107,12 +107,16 @@ if (!isset($_GET['campaign_id'])) {
         <p><strong>Goal:</strong> <span><?= htmlspecialchars($campaignData['target_amount']) ?></span></p>
         <p><strong>Total Collected:</strong> <span><?= htmlspecialchars($campaignData['total_collected']) ?></span></p>
         <p><strong>Remaining Target:</strong> <span><?= htmlspecialchars($campaignData['remaining_target']) ?></span></p>
-        <p><strong>Current Progress:</strong></p>
         <?php
-          $goalAmount = floatval(preg_replace('/[^\d.]/', '', $campaignData['target_amount']));
-          $progressAmount = floatval($campaignData['total_collected']);
-          $progressPercentage = $goalAmount > 0 ? ($progressAmount / $goalAmount) * 100 : 0;
-        ?>
+  $goalAmount = floatval(preg_replace('/[^\d.]/', '', $campaignData['target_amount']));
+  $progressAmount = floatval($campaignData['total_collected']);
+  $progressPercentage = $goalAmount > 0 ? ($progressAmount / $goalAmount) * 100 : 0;
+?>
+<p>
+  <strong>Current Progress:</strong> <?= number_format($progressPercentage, 2) ?>%
+</p>
+
+       
         <div class="progress-bar" style="margin-bottom: 20px;">
           <div class="progress" id="campaign-progress" style="width: <?= $progressPercentage ?>%;">
             <?= number_format($progressPercentage, 2) ?>%

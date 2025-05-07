@@ -1,6 +1,6 @@
 <?php
 // connect.php is included here; make sure the file exists and $conn is defined there
-include 'connect.php';
+include 'config.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +13,7 @@ include 'connect.php';
     <link rel="stylesheet" href="Style.css" />
     <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
     <title>Campaigns</title>
+    <link rel="stylesheet" href="charity_project/bootstrap.min.css">
 </head>
 
 <body class="home-page">
@@ -52,35 +53,38 @@ include 'connect.php';
     <main>
         <section>
             <div class="event-table-container">
-                <table id="campaignTable" class="event-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Target Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody id="campaignTableBody">
-                        <?php
-                        $sql = "SELECT campaign_id as id, name, description, target_amount FROM campaign";
-                        $result = $conn->query($sql);
+            <table id="campaignTable" class="event-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Target Amount</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="campaignTableBody">
+        <?php
+        $sql = "SELECT campaign_id as id, name, description, target_amount FROM campaign";
+        $result = $conn->query($sql);
 
-                        if ($result->num_rows > 0) {
-                            while($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['description']) . "</td>";
-                                echo "<td>" . htmlspecialchars($row['target_amount']) . "</td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='4'>No campaigns found.</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['description']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['target_amount']) . "</td>";
+                echo "<td><a href='get_campaign_details.php?campaign_id=" . htmlspecialchars($row['id']) . "' class='btn btn-primary'>View Details</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No campaigns found.</td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
+
             </div>
         </section>
     </main>

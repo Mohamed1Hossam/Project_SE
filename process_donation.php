@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+require_once 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && strpos($_SERVER["CONTENT_TYPE"], "application/json") !== false) {
     header('Content-Type: application/json');

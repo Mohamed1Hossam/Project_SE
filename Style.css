@@ -287,6 +287,15 @@ input:focus {
   text-decoration: underline;
 }
 
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--dark-gray);
+}
+
 @media (max-width: 768px) {
   body {
     flex-direction: column;
@@ -300,38 +309,6 @@ input:focus {
   .hero-image {
     min-height: 300px;
   }
-}
-
-.input-container {
-  display: flex;
-  align-items: center;
-  background-color: #f9f9f9;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-bottom: 15px;
-}
-
-.input-container input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 14px;
-  flex: 1;
-  padding-left: 30px;
-}
-
-.input-container .icon {
-  margin-right: 10px;
-  color: #888;
-  font-size: 16px;
-}
-
-/* Add these styles to your CSS file */
-.register-wrapper {
-  display: flex;
-  height: 100vh;
-  width: 100%;
 }
 
 /********************************************************************* Home Page CSS *************************************************************************************************/
@@ -435,7 +412,7 @@ header {
 }
 /* Features Section */
 .features {
-  padding: 60px 0;
+  padding: 60px 0px;
 }
 
 .features-grid {
@@ -821,4 +798,27 @@ footer {
 #campaign-name,
 #eventName {
   margin-bottom: 20px;
+}
+
+/* Consistent style for all view details buttons */
+.btn.btn-primary,
+.detailsButton,
+.view_btn {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 5px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.btn.btn-primary:hover,
+.detailsButton:hover,
+.view_btn:hover {
+  background-color: #086e63 !important;
+  color: #fff !important;
 }

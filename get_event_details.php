@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+include 'config.php';
 $eventData = null;
 $error = '';
 
