@@ -6,7 +6,7 @@ $errorMessage = '';
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Set admin email address
-    $admin_email = "mahmoudmohamedm18@gmail.com"; // Replace with actual admin email
+    $admin_email = "minaessam@gmail.com"; // Replace with actual admin email
     
     // Get form data
     $fullName = $_POST['fullName'] ?? 'Not provided';

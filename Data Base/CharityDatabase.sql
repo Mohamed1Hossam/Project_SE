@@ -1,6 +1,8 @@
-create database CharityMangement;
-use CharityMangement;
+-- Create the database and use it
+CREATE DATABASE CharityMangement;
+USE CharityMangement;
 
+-- Admin Table
 CREATE TABLE Admin (
     admin_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -9,6 +11,7 @@ CREATE TABLE Admin (
     last_name VARCHAR(100)
 );
 
+-- User Table
 CREATE TABLE User (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -20,6 +23,7 @@ CREATE TABLE User (
     is_volunteer BOOLEAN DEFAULT FALSE
 );
 
+-- Donor Table
 CREATE TABLE Donor (
     donor_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -30,18 +34,7 @@ CREATE TABLE Donor (
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
--- Volunteer Table
-CREATE TABLE Volunteer (
-    volunteer_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    Skills TEXT,
-    Status VARCHAR(50) DEFAULT 'inactive',
-    campaign_id INT DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
-    FOREIGN KEY (campaign_id) REFERENCES Campaign(campaign_id)
-);
-
--- CAMPAIGN
+-- Campaign Table (must be before Volunteer)
 CREATE TABLE Campaign (
     campaign_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
@@ -58,7 +51,20 @@ CREATE TABLE Campaign (
     FOREIGN KEY (admin_id) REFERENCES Admin(admin_id)
 );
 
--- Donation
+-- Volunteer Table with ON DELETE SET NULL
+CREATE TABLE Volunteer (
+    volunteer_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    Skills TEXT,
+    Status VARCHAR(50) DEFAULT 'inactive',
+    campaign_id INT DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (campaign_id) REFERENCES Campaign(campaign_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+-- Donation Table
 CREATE TABLE Donation (
     donation_id INT PRIMARY KEY AUTO_INCREMENT,
     donor_id INT,
@@ -72,7 +78,7 @@ CREATE TABLE Donation (
     FOREIGN KEY (campaign_id) REFERENCES Campaign(campaign_id)
 );
 
--- ONETIME_DONATION
+-- One-Time Donation Table
 CREATE TABLE OneTime_Donation (
     onetime_donation_id INT PRIMARY KEY AUTO_INCREMENT,
     donation_id INT,
@@ -80,7 +86,7 @@ CREATE TABLE OneTime_Donation (
     FOREIGN KEY (donation_id) REFERENCES Donation(donation_id)
 );
 
--- RECURRING_DONATION
+-- Recurring Donation Table
 CREATE TABLE Recurring_Donation (
     recurring_donation_id INT PRIMARY KEY AUTO_INCREMENT,
     donation_id INT,
@@ -91,6 +97,7 @@ CREATE TABLE Recurring_Donation (
     FOREIGN KEY (donation_id) REFERENCES Donation(donation_id)
 );
 
+-- Event Table
 CREATE TABLE Event (
     event_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
@@ -98,12 +105,12 @@ CREATE TABLE Event (
     location VARCHAR(255),
     description TEXT,
     event_date DATETIME,
-    fundraised_amount INT default 0,
+    fundraised_amount INT DEFAULT 0,
     status VARCHAR(50),
     FOREIGN KEY (campaign_id) REFERENCES Campaign(campaign_id)
 );
 
--- VOLUNTEER_EVENT
+-- Volunteer Event Table
 CREATE TABLE Volunteer_Event (
     volunteer_event_id INT PRIMARY KEY AUTO_INCREMENT,
     volunteer_id INT,
@@ -113,6 +120,7 @@ CREATE TABLE Volunteer_Event (
     FOREIGN KEY (event_id) REFERENCES Event(event_id)
 );
 
+-- Payment Table
 CREATE TABLE Payment (
     payment_id INT PRIMARY KEY AUTO_INCREMENT,
     donation_id INT,
@@ -123,8 +131,3 @@ CREATE TABLE Payment (
     status VARCHAR(100),
     FOREIGN KEY (donation_id) REFERENCES Donation(donation_id)
 );
-
-
-
-
-

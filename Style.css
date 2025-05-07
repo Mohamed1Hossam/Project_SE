@@ -287,6 +287,15 @@ input:focus {
     text-decoration: underline;
 }
 
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--dark-gray);
+}
+
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -402,7 +411,7 @@ input:focus {
 }
 /* Features Section */
 .features {
-    padding: 60px 0;
+    padding: 60px 0px;
 }
 
 .features-grid {
