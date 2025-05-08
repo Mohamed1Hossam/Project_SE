@@ -118,7 +118,7 @@ $conn->close();
           <div class="icon-landmark"></div>
             Financial Aid
           </a>
-          <a href="profile.php">
+          <a href="Profile/profile.php">
           <div class="icon-user"></div>
             Profile
           </a>

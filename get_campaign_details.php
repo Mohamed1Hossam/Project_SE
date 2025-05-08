@@ -137,7 +137,7 @@ if (!isset($_GET['campaign_id'])) {
           <div class="icon-landmark"></div>
           <span>Financial Aid</span>
         </a>
-        <a href="profile.php">
+        <a href="Profile/profile.php">
           <div class="icon-user"></div>
           <span>Profile</span>
         </a>
