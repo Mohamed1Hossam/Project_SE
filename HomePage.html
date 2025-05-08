@@ -77,6 +77,10 @@
                         <span>Events</span>
                 </a>
 
+                <a href="EventCountDown.html">
+                    <div class="icon-clock"></div>
+                    <span>Countdown</span>
+
                 <a href="process_donation.php">
                     <div class="icon-globe"></div>
                     <span>Donate Now</span>
@@ -173,6 +177,26 @@
             </div>
         </div>
     </footer>
+    <script>
+        function handleSearch() {
+          const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      
+          if (!query) {
+            alert("Please enter a search term.");
+            return;
+          }
+      
+          // Redirect based on keyword
+          if (query === "campaign" || query === "campaigns") {
+            window.location.href = "/get_campaign_details.php";
+          } else if (query === "event" || query === "events") {
+            window.location.href = "/get_event_details.php";
+          } else {
+            alert("Please search for 'campaign' or 'events'.");
+          }
+        }
+      </script>
+  
 </body>
 </body>
 </html>
