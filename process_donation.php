@@ -123,12 +123,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
                 <p>Empowering communities together</p>
             </div>
         </div>
-        <nav class="nav-links">
-            <a href="campaign_page.html"><div class="icon-globe"></div><span>Campaigns</span></a>
-            <a href="#"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
-            <a href="#"><div class="icon-landmark"></div><span>Financial Aid</span></a>
-            <a href="#"><div class="icon-user"></div><span>Profile</span></a>
-        </nav>
+        <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+
+        <div class="nav-links">
+          <a href="get_campaign_details.php">
+          <div class="icon-globe"></div>
+            Campaigns
+          </a>
+          
+          <a href="get_event_details.php">
+          <div class="icon-ticket-check"></div>
+            Events
+          </a>
+          
+          <a href="process_donation.php">
+          <div class="icon-globe"></div>
+            Donate Now
+          </a>
+
+          <a href="zakat-calculator.php">
+          <div class="icon-calculator"></div>
+            Calculate Zakat
+          </a>
+          <a href="financial_aid.php">
+          <div class="icon-landmark"></div>
+            Financial Aid
+          </a>
+          <a href="profile.php">
+          <div class="icon-user"></div>
+            Profile
+          </a>
+        </div>
+      </nav>
     </div>
 </header>
 <main>

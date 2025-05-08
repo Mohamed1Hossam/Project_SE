@@ -211,6 +211,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       align-items: center;
     }
     
+    .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.search-container input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+  width: 200px;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-container button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #1abc9c;
+  color: white;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  border-left: none;
+}
+
+.search-container input[type="text"]:focus {
+  width: 250px;
+}
+
     .logo {
       display: flex;
       align-items: center;
@@ -381,6 +411,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Empowering communities together</p>
           </div>
         </a>
+        
+        <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+
         <div class="nav-links">
           <a href="get_campaign_details.php">
           <div class="icon-globe"></div>

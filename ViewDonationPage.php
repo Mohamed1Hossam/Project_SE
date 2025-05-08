@@ -19,6 +19,35 @@ $donationList = $donation->getAllDonationsWithDetails();
             font-family: Arial, sans-serif;
         }
 
+        .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.search-container input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+  width: 200px;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-container button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #1abc9c;
+  color: white;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  border-left: none;
+}
+
+.search-container input[type="text"]:focus {
+  width: 250px;
+}
         .donation-table-wrapper {
             margin-left: auto;
             margin-right: auto;
@@ -78,12 +107,41 @@ $donationList = $donation->getAllDonationsWithDetails();
                 <p>Empowering communities together</p>
             </div>
         </div>
-        <nav class="nav-links">
-            <a href="#"><div class="icon-globe"></div><span>Campaigns</span></a>
-            <a href="#"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
-            <a href="#"><div class="icon-landmark"></div><span>Financial Aid</span></a>
-            <a href="#"><div class="icon-user"></div><span>Profile</span></a>
-        </nav>
+        <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+
+        <div class="nav-links">
+          <a href="get_campaign_details.php">
+          <div class="icon-globe"></div>
+            Campaigns
+          </a>
+          
+          <a href="get_event_details.php">
+          <div class="icon-ticket-check"></div>
+            Events
+          </a>
+          
+          <a href="process_donation.php">
+          <div class="icon-globe"></div>
+            Donate Now
+          </a>
+
+          <a href="zakat-calculator.php">
+          <div class="icon-calculator"></div>
+            Calculate Zakat
+          </a>
+          <a href="financial_aid.php">
+          <div class="icon-landmark"></div>
+            Financial Aid
+          </a>
+          <a href="profile.php">
+          <div class="icon-user"></div>
+            Profile
+          </a>
+        </div>
+      </nav>
     </div>
 </header>
 
