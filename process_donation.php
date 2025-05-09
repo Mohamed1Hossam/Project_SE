@@ -7,6 +7,9 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
 
+// Add TCPDF for PDF generation
+require_once('vendor/tecnickcom/tcpdf/tcpdf.php');
+
 // Enable mail logging
 ini_set('mail.log', '/var/log/php_mail.log');
 ini_set('mail.add_x_header', 'On');
@@ -14,8 +17,8 @@ ini_set('mail.add_x_header', 'On');
 // Gmail SMTP Configuration
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
-define('SMTP_USER', 'your-email@gmail.com'); // Replace with your Gmail address
-define('SMTP_PASS', 'your-app-password'); // Replace with your Gmail app password
+define('SMTP_USER', 'abdoadelfarouk4@gmail.com'); // Replace with your Gmail address
+define('SMTP_PASS', 'mfia rshi kfhs bdip'); // Replace with your Gmail app password
 
 // Enable error logging
 ini_set('display_errors', 1);
@@ -183,6 +186,92 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
             }
         }
 
+        // After successful donation processing and before sending email
+        // Generate PDF Receipt
+        class MYPDF extends TCPDF {
+            public function Header() {
+                $this->SetFont('helvetica', 'B', 20);
+                $this->Cell(0, 15, 'Donation Receipt', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+            }
+            
+            public function Footer() {
+                $this->SetY(-15);
+                $this->SetFont('helvetica', 'I', 8);
+                $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            }
+        }
+
+        // Create new PDF document
+        $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // Set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Children of the Land');
+        $pdf->SetTitle('Donation Receipt');
+
+        // Set default header data
+        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+        // Set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // Set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // Add a page
+        $pdf->AddPage();
+
+        // Set font
+        $pdf->SetFont('helvetica', '', 12);
+
+        // Add content to PDF
+        $pdf->Ln(20);
+        $pdf->Cell(0, 10, 'Thank you for your donation!', 0, 1, 'L');
+        $pdf->Ln(10);
+
+        // Donor Information
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(0, 10, 'Donor Information:', 0, 1, 'L');
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0, 10, 'Name: ' . $name, 0, 1, 'L');
+        $pdf->Cell(0, 10, 'Email: ' . $email, 0, 1, 'L');
+        $pdf->Ln(10);
+
+        // Donation Details
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(0, 10, 'Donation Details:', 0, 1, 'L');
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0, 10, 'Amount: EGP ' . number_format($amount, 2), 0, 1, 'L');
+        $pdf->Cell(0, 10, 'Donation Type: ' . ucfirst($donationType), 0, 1, 'L');
+        if ($donationType === 'recurring') {
+            $pdf->Cell(0, 10, 'Frequency: ' . ucfirst($recurringFrequency), 0, 1, 'L');
+            // Get next donation date
+            $stmt = $conn->prepare("SELECT next_donation_date FROM recurring_donation WHERE donation_id = ?");
+            $stmt->bind_param("i", $donationId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($row = $result->fetch_assoc()) {
+                $pdf->Cell(0, 10, 'Next Donation Date: ' . date('F j, Y', strtotime($row['next_donation_date'])), 0, 1, 'L');
+            }
+        }
+        if ($campaignName) {
+            $pdf->Cell(0, 10, 'Campaign: ' . $campaignName, 0, 1, 'L');
+        }
+        $pdf->Cell(0, 10, 'Transaction ID: ' . $paymentId, 0, 1, 'L');
+        $pdf->Cell(0, 10, 'Date: ' . date('F j, Y'), 0, 1, 'L');
+        $pdf->Ln(10);
+
+        // Thank you message
+        $pdf->SetFont('helvetica', 'I', 12);
+        $pdf->Cell(0, 10, 'Thank you for your generosity and support!', 0, 1, 'L');
+        $pdf->Ln(10);
+
+        // Save PDF to a temporary file
+        $pdfPath = sys_get_temp_dir() . '/donation_receipt_' . $paymentId . '.pdf';
+        $pdf->Output($pdfPath, 'F');
+
         // Create email subject
         $subject = "Thank You for Your Donation - Children of the Land";
         
@@ -229,6 +318,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
                 
                 <p>Your contribution will help us continue our work in supporting communities and making a positive impact.</p>
                 
+                <p>Please find your donation receipt attached to this email.</p>
+                
                 <p>If you have any questions about your donation, please don't hesitate to contact us.</p>
                 
                 <p>With sincere gratitude,<br>
@@ -237,32 +328,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
         </body>
         </html>";
         
-        // Set email headers
-        $headers = array(
-            'MIME-Version: 1.0',
-            'Content-type: text/html; charset=UTF-8',
-            'From: Children of the Land <noreply@childerenoftheland.org>',
-            'Reply-To: noreply@childerenoftheland.org',
-            'X-Mailer: PHP/' . phpversion()
-        );
+        // Send email to donor
+        $mail = new PHPMailer(true);
         
-        // Debug information
-        error_log("Attempting to send email to: " . $email);
-        error_log("Email subject: " . $subject);
-        error_log("Email headers: " . print_r($headers, true));
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server
+        $mail->SMTPAuth   = true;                                 // Enable SMTP authentication
+        $mail->Username   = 'abdoadelfarouk4@gmail.com';         // SMTP username (your Gmail address)
+        $mail->Password   = 'mfia rshi kfhs bdip';               // SMTP password (Gmail app password)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       // Enable TLS encryption
+        $mail->Port       = 587;                                  // TCP port to connect to
         
-        // Send thank you email to donor
-        $emailSent = mail($email, $subject, $emailBody, implode("\r\n", $headers));
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
         
-        if (!$emailSent) {
-            error_log("Failed to send thank you email to " . $email);
-            error_log("PHP mail() error: " . error_get_last()['message']);
-        } else {
-            error_log("Thank you email sent successfully to " . $email);
-        }
-
+        // Recipients
+        $mail->setFrom('noreply@childerenoftheland.org', 'Children of the Land');
+        $mail->addAddress($email, $name);                         // Add donor as recipient
+        
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $emailBody;
+        $mail->AltBody = strip_tags(str_replace(['<br>', '</p>'], ["\n", "\n\n"], $emailBody));
+        
+        // Attach PDF receipt
+        $mail->addAttachment($pdfPath, 'Donation_Receipt.pdf');
+        
+        // Send email
+        $mail->send();
+        
+        // Delete temporary PDF file
+        unlink($pdfPath);
+        
         // Send success response
-        echo json_encode(['status' => 'success', 'message' => 'Thank you for your donation! A confirmation email has been sent to your email address.']);
+        echo json_encode(['status' => 'success', 'message' => 'Thank you for your donation! A confirmation email with your receipt has been sent to your email address.']);
 
         $conn->close();
         exit;
@@ -304,9 +410,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
         </div>
         <nav class="nav-links">
             <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
-            <a href="#"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
-            <a href="#"><div class="icon-landmark"></div><span>Financial Aid</span></a>
-            <a href="#"><div class="icon-user"></div><span>Profile</span></a>
+            <a href="zakat-calculator.php"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
+            <a href="financial_aid.php"><div class="icon-landmark"></div><span>Financial Aid</span></a>
+            <a href="Profile/profile.php"><div class="icon-user"></div><span>Profile</span></a>
         </nav>
     </div>
 </header>

@@ -83,15 +83,15 @@ if (!isset($_GET['campaign_id'])) {
           <div class="icon-globe"></div>
           <span>Campaigns</span>
         </a>
-        <a href="#">
+        <a href="zakat-calculator.php">
           <div class="icon-calculator"></div>
           <span>Calculate Zakat</span>
         </a>
-        <a href="#">
+        <a href="financial_aid.php">
           <div class="icon-landmark"></div>
           <span>Financial Aid</span>
         </a>
-        <a href="#">
+        <a href="Profile/profile.php">
           <div class="icon-user"></div>
           <span>Profile</span>
         </a>
