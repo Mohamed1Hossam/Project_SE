@@ -1,6 +1,22 @@
 <?php
 require_once 'config.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+// Enable mail logging
+ini_set('mail.log', '/var/log/php_mail.log');
+ini_set('mail.add_x_header', 'On');
+
+// Gmail SMTP Configuration
+define('SMTP_HOST', 'smtp.gmail.com');
+define('SMTP_PORT', 587);
+define('SMTP_USER', 'your-email@gmail.com'); // Replace with your Gmail address
+define('SMTP_PASS', 'your-app-password'); // Replace with your Gmail app password
+
 // Enable error logging
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
@@ -155,27 +171,110 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
         // Commit transaction
         $conn->commit();
 
-        // Send success response
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Thank you for your donation, ' . htmlspecialchars($name) . '!',
-            'data' => [
-                'donation_id' => $donationId,
-                'amount' => $amount,
-                'type' => $donationType,
-                'date' => date('Y-m-d H:i:s')
-            ]
-        ]);
-    } catch (Exception $e) {
-        $conn->rollback();
-        error_log("Transaction failed: " . $e->getMessage());
-        http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
+        // Get campaign name if campaign_id exists
+        $campaignName = '';
+        if ($campaignId) {
+            $stmt = $conn->prepare("SELECT name FROM campaign WHERE campaign_id = ?");
+            $stmt->bind_param("i", $campaignId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($row = $result->fetch_assoc()) {
+                $campaignName = $row['name'];
+            }
+        }
 
-    $conn->close();
-    exit;
+        // Create email subject
+        $subject = "Thank You for Your Donation - Children of the Land";
+        
+        // Create email body
+        $emailBody = "
+        <html>
+        <head>
+            <title>Thank You for Your Donation</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                h2 { color: #16a085; }
+                .details { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+                .label { font-weight: bold; }
+                .section { margin-bottom: 15px; }
+                .amount { font-size: 24px; color: #16a085; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Thank You for Your Generous Donation!</h2>
+                <p>Dear " . htmlspecialchars($name) . ",</p>
+                <p>We are incredibly grateful for your generous donation to Children of the Land. Your support makes a real difference in our mission to empower communities.</p>
+                
+                <div class='details'>
+                    <div class='section'>
+                        <span class='label'>Donation Amount:</span> <span class='amount'>EGP " . number_format($amount, 2) . "</span>
+                    </div>
+                    <div class='section'>
+                        <span class='label'>Donation Type:</span> " . ucfirst($donationType) . "
+                    </div>" .
+                    ($donationType === 'recurring' ? "
+                    <div class='section'>
+                        <span class='label'>Frequency:</span> " . ucfirst($recurringFrequency) . "
+                    </div>" : "") .
+                    ($campaignName ? "
+                    <div class='section'>
+                        <span class='label'>Campaign:</span> " . htmlspecialchars($campaignName) . "
+                    </div>" : "") . "
+                    <div class='section'>
+                        <span class='label'>Transaction ID:</span> " . $paymentId . "
+                    </div>
+                </div>
+                
+                <p>Your contribution will help us continue our work in supporting communities and making a positive impact.</p>
+                
+                <p>If you have any questions about your donation, please don't hesitate to contact us.</p>
+                
+                <p>With sincere gratitude,<br>
+                The Children of the Land Team</p>
+            </div>
+        </body>
+        </html>";
+        
+        // Set email headers
+        $headers = array(
+            'MIME-Version: 1.0',
+            'Content-type: text/html; charset=UTF-8',
+            'From: Children of the Land <noreply@childerenoftheland.org>',
+            'Reply-To: noreply@childerenoftheland.org',
+            'X-Mailer: PHP/' . phpversion()
+        );
+        
+        // Debug information
+        error_log("Attempting to send email to: " . $email);
+        error_log("Email subject: " . $subject);
+        error_log("Email headers: " . print_r($headers, true));
+        
+        // Send thank you email to donor
+        $emailSent = mail($email, $subject, $emailBody, implode("\r\n", $headers));
+        
+        if (!$emailSent) {
+            error_log("Failed to send thank you email to " . $email);
+            error_log("PHP mail() error: " . error_get_last()['message']);
+        } else {
+            error_log("Thank you email sent successfully to " . $email);
+        }
+
+        // Send success response
+        echo json_encode(['status' => 'success', 'message' => 'Thank you for your donation! A confirmation email has been sent to your email address.']);
+
+        $conn->close();
+        exit;
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        $conn->rollback();
+        error_log("Error processing donation: " . $e->getMessage());
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'An error occurred while processing your donation. Please try again.']);
+        $conn->close();
+        exit;
+    }
 }
 ?>
 
