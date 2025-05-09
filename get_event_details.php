@@ -44,6 +44,7 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Event Details</title>
   <script src="Script.js"></script>
+  <link rel="stylesheet" href="charity_project/bootstrap.min.css">
   <link rel="stylesheet" href="Style.css"/>
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css"/>
 </head>
@@ -59,7 +60,7 @@ $conn->close();
       </div>
     </div>
     <nav class="nav-links">
-      <a href="campaign_page.html"><div class="icon-globe"></div><span>Campaigns</span></a>
+      <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
       <a href="#"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
       <a href="#"><div class="icon-landmark"></div><span>Financial Aid</span></a>
       <a href="#"><div class="icon-user"></div><span>Profile</span></a>
@@ -101,7 +102,7 @@ $conn->close();
 
     <div style="text-align:center; margin: 20px 0;">
       <button class="detailsButton" onclick="window.location.href='get_campaign_details.php?campaign_id=<?= $eventData['campaign_id'] ?>'">Go to Campaign Details</button>
-      <button class="detailsButton" onclick="window.location.href='process_donation.php'">Donate Now</button>
+      <button class="detailsButton" onclick="window.location.href='process_donation.php?campaign_id=<?= $eventData['campaign_id'] ?>'">Donate Now</button>
     </div>
   <?php else: ?>
     <p style="padding: 20px; color: red;"><?= htmlspecialchars($error) ?></p>

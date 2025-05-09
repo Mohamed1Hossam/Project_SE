@@ -53,6 +53,68 @@ document.addEventListener("DOMContentLoaded", function () {
       // Redirect to Twitter OAuth login
       window.location.href = "twitter_oauth.php";
     });
+
+  // Donation form handling - separate initialization
+  if (document.getElementById("donationForm")) {
+    const donationForm = document.getElementById("donationForm");
+    const submitHandler = function (event) {
+      event.preventDefault();
+      const campaignIdInput = document.getElementById("campaignId");
+      console.log(
+        "Campaign ID:",
+        campaignIdInput ? campaignIdInput.value : "not found"
+      );
+
+      const data = {
+        donorName: document.getElementById("donorName").value,
+        donorEmail: document.getElementById("donorEmail").value,
+        donationAmount: document.getElementById("donationAmount").value,
+        paymentMethod: document.querySelector(
+          'input[name="paymentMethod"]:checked'
+        )?.value,
+        donationType: document.querySelector(
+          'input[name="donationType"]:checked'
+        )?.value,
+        recurringFrequency:
+          document.querySelector('input[name="recurringFrequency"]:checked')
+            ?.value || null,
+        campaignId: campaignIdInput ? campaignIdInput.value : null,
+      };
+
+      console.log("Sending donation data:", data);
+
+      fetch("process_donation.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("Server response:", result);
+          if (result.status === "success") {
+            alert(result.message);
+            donationForm.reset();
+          } else {
+            throw new Error(result.message || "Failed to process donation");
+          }
+        })
+        .catch((error) => {
+          console.error("Donation error:", error);
+          alert(
+            "Error: " +
+              (error.message || "Failed to process donation. Please try again.")
+          );
+        });
+    };
+
+    donationForm.addEventListener("submit", submitHandler);
+
+    // Initialize other donation form functionality
+    paymentMethodSelection();
+    donationTypeSelection();
+  }
 });
 
 // event_details.js
@@ -151,7 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((error) => console.error("Error fetching campaigns:", error));
   // donation_form.js
   function sendDonation(event) {
-    event.preventDefault(); // Prevent the form from submitting if validation fails
+    event.preventDefault();
+    const campaignIdInput = document.getElementById("campaignId");
     const data = {
       donorName: document.getElementById("donorName").value,
       donorEmail: document.getElementById("donorEmail").value,
@@ -164,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       recurringFrequency:
         document.querySelector('input[name="recurringFrequency"]:checked')
           ?.value || null,
+      campaignId: campaignIdInput ? campaignIdInput.value : null,
       cardNumber: null,
       cardExpiry: null,
       cardCvv: null,
@@ -188,16 +252,22 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Donation form submitted successfully");
-          alert("Thank you for your donation!");
+      .then(async (response) => {
+        const result = await response.json();
+        if (response.ok && result.status === "success") {
+          alert(result.message);
           document.getElementById("donationForm").reset();
         } else {
-          console.error("Error submitting donation form");
+          throw new Error(result.message || "Failed to process donation");
         }
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Donation error:", error);
+        alert(
+          "Error: " +
+            (error.message || "Failed to process donation. Please try again.")
+        );
+      });
   }
 
   function displayErrorMessage(fieldId, message) {
@@ -329,8 +399,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const donationForm = document.getElementById("donationForm");
-  if (donationForm)
-    donationForm.addEventListener("submit", validateDonationForm);
+  if (donationForm) {
+    donationForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent any default form submission
+      validateDonationForm(event);
+    });
+  }
 
   paymentMethodSelection();
   donationTypeSelection();

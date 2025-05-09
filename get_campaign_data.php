@@ -10,10 +10,10 @@ include 'config.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="Script.js"></script>
+    <link rel="stylesheet" href="charity_project/bootstrap.min.css">
     <link rel="stylesheet" href="Style.css" />
     <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
     <title>Campaigns</title>
-    <link rel="stylesheet" href="charity_project/bootstrap.min.css">
 </head>
 
 <body class="home-page">
@@ -30,7 +30,7 @@ include 'config.php';
                 </div>
             </div>
             <nav class="nav-links">
-                <a href="campaign_page.html">
+                <a href="get_campaign_data.php">
                     <div class="icon-globe"></div>
                     <span>Campaigns</span>
                 </a>

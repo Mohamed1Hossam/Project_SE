@@ -22,9 +22,9 @@ if (isset($_GET['json'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="Script.js"></script>
+  <link rel="stylesheet" href="charity_project/bootstrap.min.css">
   <link rel="stylesheet" href="Style.css" />
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
-  <link rel="stylesheet" href="charity_project/bootstrap.min.css">
   <title>Event Page</title>
 </head>
 <body class="home-page">
@@ -38,7 +38,7 @@ if (isset($_GET['json'])) {
       </div>
     </div>
     <nav class="nav-links">
-      <a href="campaign_page.html"><div class="icon-globe"></div><span>Campaigns</span></a>
+      <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
       <a href="#"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
       <a href="#"><div class="icon-landmark"></div><span>Financial Aid</span></a>
       <a href="#"><div class="icon-user"></div><span>Profile</span></a>

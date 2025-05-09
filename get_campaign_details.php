@@ -39,7 +39,7 @@ if (!isset($_GET['campaign_id'])) {
     }
 
     // Get events for the campaign
-    $eventsQuery = $conn->prepare("SELECT name, event_date FROM event WHERE campaign_id = ?");
+    $eventsQuery = $conn->prepare("SELECT event_id, name, event_date FROM event WHERE campaign_id = ?");
     $eventsQuery->bind_param("i", $campaignId);
     $eventsQuery->execute();
     $eventsResult = $eventsQuery->get_result();
@@ -62,6 +62,7 @@ if (!isset($_GET['campaign_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Campaign Details</title>
   <script src="Script.js"></script>
+  <link rel="stylesheet" href="charity_project/bootstrap.min.css">
   <link rel="stylesheet" href="Style.css" />
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
 </head>
@@ -78,7 +79,7 @@ if (!isset($_GET['campaign_id'])) {
         </div>
       </div>
       <nav class="nav-links">
-        <a href="campaign_page.html">
+        <a href="get_campaign_data.php">
           <div class="icon-globe"></div>
           <span>Campaigns</span>
         </a>
@@ -125,6 +126,9 @@ if (!isset($_GET['campaign_id'])) {
         <p><strong>Start Date:</strong> <span><?= htmlspecialchars($campaignData['start_date']) ?></span></p>
         <p><strong>End Date:</strong> <span><?= htmlspecialchars($campaignData['end_date']) ?></span></p>
         <p><strong>Status:</strong> <span><?= htmlspecialchars($campaignData['status']) ?></span></p>
+        <div style="text-align:center; margin: 20px 0;">
+          <button class="detailsButton" onclick="window.location.href='process_donation.php?campaign_id=<?= htmlspecialchars($campaignData['campaign_id']) ?>'">Donate Now</button>
+        </div>
       </div>
 
       <!-- Display events -->
@@ -133,7 +137,7 @@ if (!isset($_GET['campaign_id'])) {
         <ul id="events-list" style="margin-left: 20px;">
           <?php if (count($events) > 0): ?>
             <?php foreach ($events as $event): ?>
-              <li><strong><?= htmlspecialchars($event['name']) ?></strong> (<?= htmlspecialchars($event['event_date']) ?>)</li>
+              <li><strong><a href="get_event_details.php?id=<?= urlencode($event['event_id'] ?? '') ?>"><?= htmlspecialchars($event['name']) ?></strong></a> (<?= htmlspecialchars($event['event_date']) ?>)</li>
             <?php endforeach; ?>
           <?php else: ?>
             <li>No events available for this campaign.</li>
