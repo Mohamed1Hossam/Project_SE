@@ -14,8 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST['confirmPassword'];
     $phone_number = $_POST['phone'];
     
-    // Optional checkboxes - not in your current form, but included for completeness
-    $is_donor = isset($_POST['is_donor']) ? 1 : 0;
+    // Set is_donor to 1 by default for all registrations
+    $is_donor = 1;
+    
+    // Keep is_volunteer as optional if you need it later
     $is_volunteer = isset($_POST['is_volunteer']) ? 1 : 0;
 
     // Instantiate the UserRegistration class, passing the necessary parameters

@@ -1,12 +1,28 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
 // Initialize variables for form processing
 $formSubmitted = false;
 $errorMessage = '';
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Require PHPMailer
+    
+    // Check if PHPMailer is installed via Composer
+    if (file_exists('vendor/autoload.php')) {
+        require 'vendor/autoload.php';
+    } else {
+        // If not using Composer, include the PHPMailer files directly
+        require 'includes/PHPMailer/src/Exception.php';
+        require 'includes/PHPMailer/src/PHPMailer.php';
+        require 'includes/PHPMailer/src/SMTP.php';
+    }
+    
     // Set admin email address
-    $admin_email = "mahmoudmohamedm18@gmail.com"; // Replace with actual admin email
+    $admin_email = "mahmoudmohamedds20@gmail.com"; // Replace with actual admin email
     
     // Get form data
     $fullName = $_POST['fullName'] ?? 'Not provided';
@@ -19,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Create email subject
     $subject = "New Financial Aid Request: $fullName";
     
-    // Create email body
+    // Create email body for admin
     $emailBody = "
     <html>
     <head>
@@ -67,17 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </html>
     ";
     
-    // Set email headers
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: childerenoftheland <noreply@childerenoftheland.org>" . "\r\n";
-    $headers .= "Reply-To: $email" . "\r\n";
-    
-    // Send email to admin
-    $emailSent = mail($admin_email, $subject, $emailBody, $headers);
-    
-    // Send confirmation email to applicant
-    $userSubject = "Your Financial Aid Request - childerenoftheland";
+    // Create confirmation email body for user
     $userMessage = "
     <html>
     <head>
@@ -110,22 +116,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </html>
     ";
     
-    // Send confirmation email to user
-    $userEmailSent = mail($email, $userSubject, $userMessage, $headers);
-    
-    // Set form submission status
-    $formSubmitted = $emailSent;
-    if (!$emailSent) {
-        $errorMessage = 'There was an error sending your request. Please try again.';
+    try {
+        // Send email to admin
+        $mail = new PHPMailer(true);
+        
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server
+        $mail->SMTPAuth   = true;                                 // Enable SMTP authentication
+        $mail->Username   = 'mahmoudmohamedds20@gmail.com';               // SMTP username (your Gmail address)
+        $mail->Password   = 'ggak mgjp fqlu psir';                  // SMTP password (Gmail app password)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       // Enable TLS encryption
+        $mail->Port       = 587;                                  // TCP port to connect to
+        
+        $mail->SMTPOptions = [
+          'ssl' => [
+              'verify_peer' => false,
+              'verify_peer_name' => false,
+              'allow_self_signed' => true
+          ]
+      ];
+      
+        // Recipients
+        $mail->setFrom('noreply@childerenoftheland.org', 'childerenoftheland');
+        $mail->addAddress($admin_email);                          // Add admin as recipient
+        $mail->addReplyTo($email, $fullName);                     // Set reply-to as applicant
+        
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $emailBody;
+        $mail->AltBody = strip_tags(str_replace(['<br>', '</p>'], ["\n", "\n\n"], $emailBody));
+        
+        // Send to admin
+        $mail->send();
+        
+        // Send confirmation email to user (using same $mail object)
+        $mail->clearAddresses(); // Clear previous recipient (admin)
+        $mail->addAddress($email, $fullName); // Add applicant's email
+        $mail->Subject = "Your Financial Aid Request - childerenoftheland";
+        $mail->Body    = $userMessage;
+        $mail->AltBody = strip_tags(str_replace(['<br>', '</p>'], ["\n", "\n\n"], $userMessage));
+        
+        // Send to user
+        $mail->send();
+        
+        $formSubmitted = true;
+    } catch (Exception $e) {
+        $errorMessage = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $formSubmitted = false;
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
   <title>childerenoftheland - Financial Aid Request</title>
   <style>
     * {
@@ -160,6 +211,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       align-items: center;
     }
     
+    .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.search-container input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+  width: 200px;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-container button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #1abc9c;
+  color: white;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  border-left: none;
+}
+
+.search-container input[type="text"]:focus {
+  width: 250px;
+}
+
     .logo {
       display: flex;
       align-items: center;
@@ -321,46 +402,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <header>
     <div class="container">
       <nav class="navbar">
-        <a href="#" class="logo">
+        <a href="HomePage.html" class="logo">
           <div class="logo-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
+          <div class="icon-heart"></div>
           </div>
           <div class="logo-text">
-            <h1>childerenoftheland</h1>
+            <h1>Children of the <span>Land</span></h1>
             <p>Empowering communities together</p>
           </div>
         </a>
+        
+        <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+
         <div class="nav-links">
-          <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
+          <a href="get_campaign_details.php">
+          <div class="icon-globe"></div>
             Campaigns
           </a>
-          <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
+          
+          <a href="get_event_details.php">
+          <div class="icon-ticket-check"></div>
+            Events
+          </a>
+          
+          <a href="process_donation.php">
+          <div class="icon-globe"></div>
+            Donate Now
+          </a>
+
+          <a href="zakat-calculator.php">
+          <div class="icon-calculator"></div>
             Calculate Zakat
           </a>
-          <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
+          <a href="financial_aid.php">
+          <div class="icon-landmark"></div>
             Financial Aid
           </a>
-          <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+          <a href="Profile/profile.php">
+          <div class="icon-user"></div>
             Profile
           </a>
         </div>
@@ -369,6 +451,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </header>
 
   <main>
+
     <div class="container">
       <?php if ($formSubmitted): ?>
         <!-- Success message when form is submitted successfully -->

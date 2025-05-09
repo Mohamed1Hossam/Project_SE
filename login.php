@@ -1,29 +1,56 @@
 <?php 
 // login.php - User Login Handler
 
+// Make sure these are set properly before session_start
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_secure', 0); // Set to 1 if using HTTPS
+
 session_start();  // Make sure session is started at the beginning
-require_once 'config.php';  // Include the database connection
-require_once 'UserLogin.php';  // Include the UserLogin class
+session_regenerate_id(true); // Prevent session fixation attacks
+require_once 'config.php';      // Include the database connection
+require_once 'UserLogin.php';   // Include the UserLogin class
+
+// Debug information - comment out when fixed
+function debug_to_file($data) {
+    $file = fopen("login_debug.log", "a");
+    fwrite($file, date("Y-m-d H:i:s") . ": " . print_r($data, true) . "\n");
+    fclose($file);
+}
+
+// Clear any previous errors
+if (isset($_SESSION['login_errors'])) {
+    unset($_SESSION['login_errors']);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get email and password from the form
+    // Get email, password, and role from the form
     $email = $_POST["email"];
     $password = $_POST["password"];
+    $role = $_POST["role"];  // 'admin' or 'user'
+    
+    // Debug info
+    debug_to_file("Login attempt: Email: $email, Role: $role");
 
-    // Instantiate the UserLogin class, passing the necessary parameters
-    $userLogin = new UserLogin($conn, $email, $password);
+    // Instantiate the UserLogin class with role
+    $userLogin = new UserLogin($conn, $email, $password, $role);
 
     // Call the login method to attempt login
     $errors = $userLogin->login();
 
     // If there are errors, set them in the session and redirect
     if (!empty($errors)) {
+        debug_to_file("Login errors: " . print_r($errors, true));
         $_SESSION['login_errors'] = $errors;
         $_SESSION['form_data'] = ['email' => $email];
-        header("location: login.php");  // Exact filename with space
+        header("location: login.php");
         exit;
-    } else {
-        // Login successful - redirected in the UserLogin class
+    }
+    // Successful login handled inside UserLogin class
+} else {
+    // Display any errors from previous login attempts
+    if (isset($_SESSION['login_errors'])) {
+        $errors = $_SESSION['login_errors'];
     }
 }
 ?>
@@ -60,7 +87,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Login to continue your charitable journey</p>
         </div>
         
+        <!-- Display errors if any -->
+        <?php if(isset($errors) && !empty($errors)): ?>
+            <div class="error-messages">
+                <ul>
+                    <?php foreach($errors as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        
         <form id="loginForm" action="login.php" method="POST">
+            <div class="role-selection">
+                <label><input type="radio" name="role" value="admin" required> Admin</label>
+                <label><input type="radio" name="role" value="user" required> User</label>
+            </div>
+            
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <div class="input-container">
@@ -103,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         
         <p class="signup-prompt">
-            Don't have an account? <a href="Register page.html" class="signup-link">Sign up</a>
+            Don't have an account? <a href="register.php" class="signup-link">Sign up</a>
         </p>
     </div>
     

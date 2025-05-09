@@ -6,7 +6,47 @@
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
     <title>Children of the Land</title>
+    <style>
+
+        a{
+            text-decoration: none;
+            padding: 0;
+            margin: 0;
+        }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.search-container input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+  width: 200px;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-container button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #1abc9c;
+  color: white;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  border-left: none;
+}
+
+.search-container input[type="text"]:focus {
+  width: 250px;
+}
+
+    </style>
 </head>
+
 <body class="home-page">
     <!-- Header/Navigation -->
     <header>
@@ -20,20 +60,40 @@
                 <p>Empowering communities together</p>
               </div>
             </div>
+
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+              
             <nav class="nav-links">
-                <a href="#">
+                <a href="get_campaign_data.php">
                     <div class="icon-globe"></div>
                     <span>Campaigns</span>
                 </a>
-                <a href="#">
+                
+                <a href="get_event_data.php">
+                        <div class="icon-ticket-check"></div>
+                        <span>Events</span>
+                </a>
+
+                <a href="EventCountDown.html">
+                    <div class="icon-clock"></div>
+                    <span>Countdown</span>
+
+                <a href="process_donation.php">
+                    <div class="icon-globe"></div>
+                    <span>Donate Now</span>
+                </a>
+                <a href="zakat-calculator.php">
                     <div class="icon-calculator"></div>
                     <span>Calculate Zakat</span>
                 </a>
-                <a href="#">
+                <a href="financial_aid.php">
                     <div class="icon-landmark"></div>
                     <span>Financial Aid</span>
                 </a>
-                <a href="#">
+                <a href="Profile/profile.php">
                     <div class="icon-user"></div>
                     <span>Profile</span>
                 </a>
@@ -54,7 +114,8 @@
     <!-- Features Section -->
     <section class="features">
         <div class="container">
-            <div class="features-grid">
+            <div class="features-grid "> 
+
                 <div class="feature-card">
                     <div class="feature-icon">
                         <div class="icon-calculator"></div>
@@ -62,6 +123,7 @@
                     <h3 class="feature-title">Calculate Zakat</h3>
                     <p class="feature-desc">Use our Zakat calculator to determine your religious obligation accurately.</p>
                 </div>
+
                 <div class="feature-card">
                     <div class="feature-icon">
                         <div class="icon-landmark"></div>
@@ -69,6 +131,7 @@
                     <h3 class="feature-title">Financial Aid</h3>
                     <p class="feature-desc">Request assistance or contribute to those in need of financial support.</p>
                 </div>
+
                 <div class="feature-card">
                     <div class="feature-icon">
                         <div class="icon-users"></div>
@@ -77,6 +140,7 @@
                     <p class="feature-desc">Connect with others and be part of our growing charitable community.</p>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -113,6 +177,26 @@
             </div>
         </div>
     </footer>
+    <script>
+        function handleSearch() {
+          const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      
+          if (!query) {
+            alert("Please enter a search term.");
+            return;
+          }
+      
+          // Redirect based on keyword
+          if (query === "campaign" || query === "campaigns") {
+            window.location.href = "/get_campaign_details.php";
+          } else if (query === "event" || query === "events") {
+            window.location.href = "/get_event_details.php";
+          } else {
+            alert("Please search for 'campaign' or 'events'.");
+          }
+        }
+      </script>
+  
 </body>
 </body>
 </html>
