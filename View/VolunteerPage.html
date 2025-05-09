@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Volunteer Registration</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f5f5;
+        }
+
+
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #fff;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .volunteer-form-container {
+            flex: 1;
+            padding-top: 150px;
+            padding-bottom: 50px;
+        }
+
+        .volunteer-form {
+            background-color: #f7f7f7;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            box-sizing: border-box;
+        }
+
+        .volunteer-form input, .volunteer-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .volunteer-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .volunteer-form .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .volunteer-form button {
+            background-color: #0d9488;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message {
+            text-align: center;
+            color: green;
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #fff;
+            box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-logo svg {
+            vertical-align: middle;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .logo-text span {
+            color: #0d9488;
+        }
+
+        .nav-links a {
+            /* margin-left: 20px; */
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links span {
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-content">
+        <div class="logo">
+            <div class="logo-circle">
+                <div class="icon-heart"></div>
+            </div>
+            <div class="logo-text">
+                <h1>Children of the <span>Land</span></h1>
+                <p>Empowering communities together</p>
+            </div>
+        </div>
+                    <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+        
+        <nav class="nav-links">
+        <a href="../get_campaign_data.php">
+                    <div class="icon-globe"></div>
+                    <span>Campaigns</span>
+                </a>
+                
+                <a href="../get_event_data.php">
+                        <div class="icon-ticket-check"></div>
+                        <span>Events</span>
+                </a>
+
+                <a href="../EventCountDown.html">
+                    <div class="icon-clock"></div>
+                    <span>Countdown</span>
+
+                <a href="../process_donation.php">
+                    <div class="icon-globe"></div>
+                    <span>Donate Now</span>
+                </a>
+                <a href="../zakat-calculator.php">
+                    <div class="icon-calculator"></div>
+                    <span>Calculate Zakat</span>
+                </a>
+                <a href="../financial_aid.php">
+                    <div class="icon-landmark"></div>
+                    <span>Financial Aid</span>
+                </a>
+                <a href="../VolunteerPage.php">
+                    <div class="icon-user"></div>
+                    <span>Join US</span>
+            </a>
+                <a href="../Profile/profile.php">
+                    <div class="icon-user"></div>
+                    <span>Profile</span>
+                </a>
+        </nav>
+    </div>
+</header>
+
+<div class="volunteer-form-container">
+    <form method="POST" class="volunteer-form" action="../Controller/VolunteerPage.php">
+        <h2>Volunteer Registration</h2>
+        <input type="text" name="first_name" placeholder="First Name" required>
+        <input type="text" name="last_name" placeholder="Last Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+        <textarea name="skills" placeholder="Your Skills" rows="4" required></textarea>
+        <div class="button-container">
+            <button type="submit">Submit</button>
+        </div>
+        <?php if ($message): ?>
+            <div class="message"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
+    </form>
+</div>
+
+<footer>
+    <div class="container footer-content">
+        <div class="copyright">© 2024 Children of the Land. All rights reserved.</div>
+        <div class="footer-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#20B2AA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+            </svg>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
