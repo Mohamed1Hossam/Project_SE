@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!-- HTML PART (for GET requests) -->
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +12,8 @@
     <link rel="stylesheet" href="../../charity_project/bootstrap.min.css">
     <script src="../../Script.js" defer></script>
 =======
+=======
+>>>>>>> 1b817e2 (.)
 <!-- donation_form_view.php -->
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +24,10 @@
     <link rel="stylesheet" href="../../Style.css" />
     <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
     <link rel="stylesheet" href="../../charity_project/bootstrap.min.css" />
+<<<<<<< HEAD
 >>>>>>> 080cf1b (.)
+=======
+>>>>>>> 1b817e2 (.)
 </head>
 <body class="home-page">
 <header>
@@ -36,6 +42,7 @@
             </div>
             <div class="search-container">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <input type="text" id="searchInput" placeholder="Search...">
                 <button onclick="handleSearch()">🔍</button>
               </div>
@@ -44,6 +51,11 @@
                 <button onclick="handleSearch()">🔍</button>
             </div>
 >>>>>>> 080cf1b (.)
+=======
+                <input type="text" id="searchInput" placeholder="Search..." />
+                <button onclick="handleSearch()">🔍</button>
+            </div>
+>>>>>>> 1b817e2 (.)
         </div>
         <nav class="nav-links">
             <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
@@ -54,15 +66,20 @@
     </div>
 </header>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 080cf1b (.)
+=======
+
+>>>>>>> 1b817e2 (.)
 <main>
     <div class="donation-page-container">
         <h1 class="donation-title">Donation Page</h1>
         <div id="donationFormContainer" class="donation-form-container">
             <form id="donationForm">
                 <input type="hidden" id="campaignId" name="campaignId" value="<?php echo isset($_GET['campaign_id']) ? htmlspecialchars($_GET['campaign_id']) : ''; ?>">
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <div class="form-group">
                     <label for="donorName">Name:</label>
@@ -76,6 +93,8 @@
                     <label for="donationAmount">Amount to Donate(EGP):</label>
                     <input type="number" id="donationAmount" name="donationAmount" min="1" required>
 =======
+=======
+>>>>>>> 1b817e2 (.)
                 
                 <div class="form-group">
                     <label for="donorName">Name:</label>
@@ -88,12 +107,16 @@
                 <div class="form-group">
                     <label for="donationAmount">Amount to Donate (EGP):</label>
                     <input type="number" id="donationAmount" name="donationAmount" min="1" required />
+<<<<<<< HEAD
 >>>>>>> 080cf1b (.)
+=======
+>>>>>>> 1b817e2 (.)
                 </div>
 
                 <div class="form-group">
                     <label>Donation Type:</label>
                     <div class="donation-type-options">
+<<<<<<< HEAD
 <<<<<<< HEAD
                         <label><input type="radio" name="donationType" value="onetime"> One-Time</label>
                         <label><input type="radio" name="donationType" value="recurring"> Recurring</label>
@@ -101,6 +124,10 @@
                         <label><input type="radio" name="donationType" value="onetime" /> One-Time</label>
                         <label><input type="radio" name="donationType" value="recurring" /> Recurring</label>
 >>>>>>> 080cf1b (.)
+=======
+                        <label><input type="radio" name="donationType" value="onetime" /> One-Time</label>
+                        <label><input type="radio" name="donationType" value="recurring" /> Recurring</label>
+>>>>>>> 1b817e2 (.)
                     </div>
                 </div>
 
@@ -108,18 +135,24 @@
                     <label>Recurring Frequency:</label>
                     <div class="recurring-options">
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label><input type="radio" name="recurringFrequency" value="weekly"> Weekly</label>
                         <label><input type="radio" name="recurringFrequency" value="monthly"> Monthly</label>
 =======
                         <label><input type="radio" name="recurringFrequency" value="weekly" /> Weekly</label>
                         <label><input type="radio" name="recurringFrequency" value="monthly" /> Monthly</label>
 >>>>>>> 080cf1b (.)
+=======
+                        <label><input type="radio" name="recurringFrequency" value="weekly" /> Weekly</label>
+                        <label><input type="radio" name="recurringFrequency" value="monthly" /> Monthly</label>
+>>>>>>> 1b817e2 (.)
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Payment Method:</label>
                     <div class="payment-options">
+<<<<<<< HEAD
 <<<<<<< HEAD
                         <label><input type="radio" name="paymentMethod" value="credit_card"> Credit Card</label>
                         <label><input type="radio" name="paymentMethod" value="paypal"> PayPal</label>
@@ -150,6 +183,8 @@
                     </div>
                 </div>
 =======
+=======
+>>>>>>> 1b817e2 (.)
                         <label><input type="radio" name="paymentMethod" value="credit_card" /> Credit Card</label>
                         <label><input type="radio" name="paymentMethod" value="paypal" /> PayPal</label>
                     </div>
@@ -181,16 +216,22 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
 >>>>>>> 080cf1b (.)
+=======
+>>>>>>> 1b817e2 (.)
                 <button class="btnd" type="submit">Donate Now</button>
             </form>
         </div>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 </main>
 </body>
 </html>
 =======
+=======
+>>>>>>> 1b817e2 (.)
     <script>
         document.addEventListener('DOMContentLoaded', () => {
   const donationForm = document.getElementById('donationForm');
@@ -267,4 +308,7 @@
 </main>
 </body>
 </html>
+<<<<<<< HEAD
 >>>>>>> 080cf1b (.)
+=======
+>>>>>>> 1b817e2 (.)
