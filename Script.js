@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("Sending donation data:", data);
 
-      fetch("donation.php", {
+      fetch("process_donation.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // event_details.js
 function fetchEventDetails(eventId) {
-  fetch(`event_details.php?event_id=${eventId}`)
+  fetch(`get_event_details.php?event_id=${eventId}`)
     .then((response) => response.json())
     .then((data) => {
       if (data) {
@@ -245,11 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Send the data to the PHP backend via POST request
-<<<<<<< HEAD
-    fetch("../controllers/donation.php", {
-=======
     fetch("donation.php", {
->>>>>>> 1b817e2 (.)
       method: "POST",
       headers: {
         "Content-Type": "application/json",
