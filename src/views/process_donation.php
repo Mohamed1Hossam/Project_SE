@@ -1,0 +1,109 @@
+<!-- HTML PART (for GET requests) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Page</title>
+    <link rel="stylesheet" href="../../Style.css">
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
+    <link rel="stylesheet" href="../../charity_project/bootstrap.min.css">
+    <script src="../../Script.js" defer></script>
+</head>
+<body class="home-page">
+<header>
+    <div class="container header-content">
+        <div class="logo">
+            <div class="logo-circle">
+                <div class="icon-heart"></div>
+            </div>
+            <div class="logo-text">
+                <h1>Children of the <span>Land</span></h1>
+                <p>Empowering communities together</p>
+            </div>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
+        </div>
+        <nav class="nav-links">
+            <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
+            <a href="zakat-calculator.php"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
+            <a href="financial_aid.php"><div class="icon-landmark"></div><span>Financial Aid</span></a>
+            <a href="Profile/profile.php"><div class="icon-user"></div><span>Profile</span></a>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="donation-page-container">
+        <h1 class="donation-title">Donation Page</h1>
+        <div id="donationFormContainer" class="donation-form-container">
+            <form id="donationForm">
+                <input type="hidden" id="campaignId" name="campaignId" value="<?php echo isset($_GET['campaign_id']) ? htmlspecialchars($_GET['campaign_id']) : ''; ?>">
+                <div class="form-group">
+                    <label for="donorName">Name:</label>
+                    <input type="text" id="donorName" name="donorName" required>
+                </div>
+                <div class="form-group">
+                    <label for="donorEmail">Email:</label>
+                    <input type="email" id="donorEmail" name="donorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="donationAmount">Amount to Donate(EGP):</label>
+                    <input type="number" id="donationAmount" name="donationAmount" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Donation Type:</label>
+                    <div class="donation-type-options">
+                        <label><input type="radio" name="donationType" value="onetime"> One-Time</label>
+                        <label><input type="radio" name="donationType" value="recurring"> Recurring</label>
+                    </div>
+                </div>
+
+                <div id="recurringOptions" class="form-group hidden">
+                    <label>Recurring Frequency:</label>
+                    <div class="recurring-options">
+                        <label><input type="radio" name="recurringFrequency" value="weekly"> Weekly</label>
+                        <label><input type="radio" name="recurringFrequency" value="monthly"> Monthly</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method:</label>
+                    <div class="payment-options">
+                        <label><input type="radio" name="paymentMethod" value="credit_card"> Credit Card</label>
+                        <label><input type="radio" name="paymentMethod" value="paypal"> PayPal</label>
+                    </div>
+                </div>
+                <div id="creditCardFields" class="hidden">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number:</label>
+                        <input type="text" id="cardNumber" name="cardNumber" pattern="^[0-9]{16}$" maxlength="16">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardExpiry">Expiry Date (MM/YY):</label>
+                        <input type="text" id="cardExpiry" name="cardExpiry" pattern="^(0[1-9]|1[0-2])\/[0-9]{2}$" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardCvv">CVV:</label>
+                        <input type="password" id="cardCvv" name="cardCvv" pattern="^[0-9]{3}$" maxlength="3">
+                    </div>
+                </div>
+                <div id="paypalFields" class="hidden">
+                    <div class="form-group">
+                        <label for="paypalEmail">PayPal Email:</label>
+                        <input type="email" id="paypalEmail" name="paypalEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="paypalPassword">PayPal Password:</label>
+                        <input type="password" id="paypalPassword" name="paypalPassword">
+                    </div>
+                </div>
+                <button class="btnd" type="submit">Donate Now</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

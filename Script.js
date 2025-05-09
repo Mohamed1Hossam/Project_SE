@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("Sending donation data:", data);
 
-      fetch("process_donation.php", {
+      fetch("donation.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // event_details.js
 function fetchEventDetails(eventId) {
-  fetch(`get_event_details.php?event_id=${eventId}`)
+  fetch(`event_details.php?event_id=${eventId}`)
     .then((response) => response.json())
     .then((data) => {
       if (data) {
@@ -153,8 +153,8 @@ const params = new URLSearchParams(window.location.search);
 const campaignId = params.get("campaign_id");
 
 const url = campaignId
-  ? `get_event_data.php?json=1&campaign_id=${campaignId}`
-  : `get_event_data.php?json=1`;
+  ? `event_data.php?json=1&campaign_id=${campaignId}`
+  : `event_data.php?json=1`;
 
 fetch(url)
   .then((response) => response.json())
@@ -178,7 +178,7 @@ fetch(url)
 
 // campaign_page.js
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("get_campaign_data.php")
+  fetch("campaign_data.php")
     .then((response) => response.json())
     .then((data) => {
       const campaignTableBody = document.getElementById("campaignTableBody");
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Send the data to the PHP backend via POST request
-    fetch("process_donation.php", {
+    fetch("../controllers/donation.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

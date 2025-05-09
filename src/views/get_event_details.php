@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include '../../config.php';
 $eventData = null;
 $error = '';
 
@@ -43,9 +43,9 @@ $conn->close();
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Event Details</title>
-  <script src="Script.js"></script>
+  <script src="../../Script.js"></script>
   <link rel="stylesheet" href="charity_project/bootstrap.min.css">
-  <link rel="stylesheet" href="Style.css"/>
+  <link rel="stylesheet" href="../../Style.css"/>
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css"/>
 </head>
 <body class="home-page">
@@ -58,6 +58,10 @@ $conn->close();
         <h1>Children of the <span>Land</span></h1>
         <p>Empowering communities together</p>
       </div>
+      <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button onclick="handleSearch()">🔍</button>
+              </div>
     </div>
     <nav class="nav-links">
       <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
