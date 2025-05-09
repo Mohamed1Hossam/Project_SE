@@ -51,6 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER["CONTENT_TYPE"]) && 
         $campaignId = intval($_GET['campaign_id']);
         error_log("Campaign ID from URL: " . $campaignId);
     }
+    // Debug output of campaign_id to browser (not recommended in production API)
+    echo isset($_GET['campaign_id']) ? htmlspecialchars($_GET['campaign_id']) : '';
+
     error_log("Final campaign ID to be used: " . ($campaignId ?? 'null'));
 
     // Extract and sanitize input data

@@ -245,7 +245,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Send the data to the PHP backend via POST request
+<<<<<<< HEAD
     fetch("../controllers/donation.php", {
+=======
+    fetch("donation.php", {
+>>>>>>> 080cf1b (.)
       method: "POST",
       headers: {
         "Content-Type": "application/json",
