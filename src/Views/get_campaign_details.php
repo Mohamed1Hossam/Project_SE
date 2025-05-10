@@ -60,8 +60,8 @@
         });
     });
   </script>
-  <link rel="stylesheet" href="../../charity_project/bootstrap.min.css">
-  <link rel="stylesheet" href="../../Style.css" />
+  <link rel="stylesheet" href="../charity_project/bootstrap.min.css">
+  <link rel="stylesheet" href="../Style.css" />
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
   <style>
     .progress-bar-container {
