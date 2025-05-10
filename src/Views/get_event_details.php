@@ -24,11 +24,41 @@
       </div>
     </div>
     <nav class="nav-links">
-      <a href="get_campaign_data.php"><div class="icon-globe"></div><span>Campaigns</span></a>
-      <a href="zakatView.php"><div class="icon-calculator"></div><span>Calculate Zakat</span></a>
-      <a href="Financialaid.php"><div class="icon-landmark"></div><span>Financial Aid</span></a>
-      <a href="profileView.php"><div class="icon-user"></div><span>Profile</span></a>
-    </nav>
+      <a href="../Views/get_campaign_data.php">
+                    <div class="icon-globe"></div>
+                    <span>Campaigns</span>
+                </a>
+                
+                <a href="../Views/get_event_data.php">
+                        <div class="icon-ticket-check"></div>
+                        <span>Events</span>
+                </a>
+
+                <a href="../EventCountDown.html">
+                    <div class="icon-clock"></div>
+                    <span>Countdown</span>
+
+                <a href="../Views/process_donation.php">
+                    <div class="icon-globe"></div>
+                    <span>Donate Now</span>
+                </a>
+                <a href="../Views/zakatView.php">
+                    <div class="icon-calculator"></div>
+                    <span>Calculate Zakat</span>
+                </a>
+                <a href="../Views/Financialaid.php">
+                    <div class="icon-landmark"></div>
+                    <span>Financial Aid</span>
+                </a>
+                <a href="../Views/VolunteerPage.html">
+                    <div class="icon-user"></div>
+                    <span>Join US</span>
+            </a>
+                <a href="../Views/profileView.php">
+                    <div class="icon-user"></div>
+                    <span>Profile</span>
+                </a>
+        </nav>
   </div>
 </header>
 

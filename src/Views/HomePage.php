@@ -27,39 +27,41 @@
             </div>
               
             <nav class="nav-links">
-                <a href="/MVCMahmoud/get_campaign_data.php">
+                <a href="../Views/get_campaign_data.php">
                     <div class="icon-globe"></div>
                     <span>Campaigns</span>
                 </a>
                 
-                <a href="/MVCMahmoud/get_event_data.php">
-                    <div class="icon-ticket-check"></div>
-                    <span>Events</span>
+                <a href="../Views/get_event_data.php">
+                        <div class="icon-ticket-check"></div>
+                        <span>Events</span>
                 </a>
 
-                <a href="/MVCMahmoud/process_donation.php">
+                <a href="../EventCountDown.html">
+                    <div class="icon-clock"></div>
+                    <span>Countdown</span>
+
+                <a href="../Views/process_donation.php">
                     <div class="icon-globe"></div>
                     <span>Donate Now</span>
                 </a>
-                <a href="/MVCMahmoud/zakat-calculator.php">
+                <a href="../Views/zakatView.php">
                     <div class="icon-calculator"></div>
                     <span>Calculate Zakat</span>
                 </a>
-                <a href="/MVCMahmoud/financial_aid.php">
+                <a href="../Views/Financialaid.php">
                     <div class="icon-landmark"></div>
                     <span>Financial Aid</span>
                 </a>
-                
-                <a href="../Views/VolunteerPage.php">
+                <a href="../Views/VolunteerPage.html">
                     <div class="icon-user"></div>
                     <span>Join US</span>
-                </a>
-
-                <a href="/MVCMahmoud/Profile/profile.php">
+            </a>
+                <a href="../Views/profileView.php">
                     <div class="icon-user"></div>
                     <span>Profile</span>
                 </a>
-            </nav>
+        </nav>
         </div>
     </header>
 

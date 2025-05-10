@@ -30,6 +30,6 @@ class FinancialAidController {
         }
         
         // Include the view
-        require_once 'Views/Fancialaid.php';
+        require_once 'Views/Financialaid.php';
     }
 }

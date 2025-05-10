@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
             passwordIcon.classList.toggle('icon-eye', !isPassword);
             passwordIcon.classList.toggle('icon-eye-off', isPassword);
         }
-    });
     
     // Form validation
     const loginForm = document.getElementById('loginForm');
