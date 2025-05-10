@@ -49,6 +49,12 @@
                     <div class="icon-landmark"></div>
                     <span>Financial Aid</span>
                 </a>
+                
+                <a href="../Views/VolunteerPage.php">
+                    <div class="icon-user"></div>
+                    <span>Join US</span>
+                </a>
+
                 <a href="/MVCMahmoud/Profile/profile.php">
                     <div class="icon-user"></div>
                     <span>Profile</span>
