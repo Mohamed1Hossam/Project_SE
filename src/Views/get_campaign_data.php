@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="../Script.js" defer></script>
-  <link rel="stylesheet" href="../../charity_project/bootstrap.min.css">
+  <link rel="stylesheet" href="../charity_project/bootstrap.min.css">
   <link rel="stylesheet" href="../Style.css" />
   <link rel="stylesheet" href="https://unpkg.com/lucide-static/font/Lucide.css" />
   <title>Campaigns</title>
