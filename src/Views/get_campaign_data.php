@@ -73,7 +73,7 @@
   <script>
     async function loadCampaigns() {
       try {
-        const response = await fetch('../controllers/campaign_data.php');
+        const response = await fetch('../Controllers/campaign_data.php');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
