@@ -11,7 +11,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       const campaignId = new URLSearchParams(window.location.search).get("campaign_id") || 1;
 
-      fetch(`../controllers/campaign_details.php?campaign_id=${campaignId}`)
+      fetch(`../Controllers/campaign_details.php?campaign_id=${campaignId}`)
         .then(response => {
           if (!response.ok) throw new Error("Network response was not ok");
           return response.json();
