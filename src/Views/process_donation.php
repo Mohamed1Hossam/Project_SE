@@ -163,7 +163,7 @@
     }
 
     try {
-      const response = await fetch('../controllers/donation.php', {
+      const response = await fetch('../Controllers/donation.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
