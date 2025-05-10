@@ -29,19 +29,19 @@
         <button onclick="handleSearch()">🔍</button>
       </div>
       <nav class="nav-links">
-        <a href="campaigns.html">
+        <a href="get_campaign_data.php">
           <div class="icon-globe"></div>
           <span>Campaigns</span>
         </a>
-        <a href="zakat-calculator.php">
+        <a href="zakatView.php">
           <div class="icon-calculator"></div>
           <span>Calculate Zakat</span>
         </a>
-        <a href="financial_aid.php">
+        <a href="Financialaid.php">
           <div class="icon-landmark"></div>
           <span>Financial Aid</span>
         </a>
-        <a href="Profile/profile.php">
+        <a href="profileView.php">
           <div class="icon-user"></div>
           <span>Profile</span>
         </a>
