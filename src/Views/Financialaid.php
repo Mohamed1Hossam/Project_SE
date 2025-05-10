@@ -72,7 +72,7 @@
                     <h3>Request Submitted Successfully!</h3>
                     <p>Thank you for submitting your financial aid request. Our team will review your information and contact you within 2-3 business days.</p>
                     <p>A confirmation email has been sent to your provided email address.</p>
-                    <a href="/MVCMahmoud/index.php" class="return-link">Return to Home</a>
+                    <a href="HomePage.php" class="return-link">Return to Home</a>
                 </div>
             <?php else: ?>
                 <div class="form-container" id="form-container">
