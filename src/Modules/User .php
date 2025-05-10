@@ -1,73 +1,59 @@
 <?php
+// User.php - Model for User data operations
+
 class User {
     private $conn;
+    private $user_id;
 
-        public function __construct() {
-        $this->conn = new mysqli("localhost", "root", "your_new_password", "charitymangement");
-        if ($this->conn->connect_error) {
-            throw new Exception("Connection failed: " . $this->conn->connect_error);
-        }
+    public function __construct($conn, $user_id = null) {
+        $this->conn = $conn;
+        $this->user_id = $user_id;
     }
 
-    // public function __construct() {
-    //     $this->conn = Database::getInstance()->getConnection();
-    // }
-
-    public function getProfile($userId) {
-        $sql = "
-            SELECT u.user_id, u.email, u.first_name, u.last_name, u.phone_number, u.is_donor, u.is_volunteer
-            FROM User u
-            WHERE u.user_id = ?
-        ";
-        $stmt = $this->conn->prepare($sql);
-        if (!$stmt) {
-            $error = "Prepare failed: " . $this->conn->error;
-            error_log($error);
-            throw new Exception($error);
+    public function getProfile() {
+        if (!$this->user_id) {
+            return null;
         }
-        $stmt->bind_param("i", $userId);
+
+        $query = "SELECT email, first_name, last_name, phone_number, is_donor, is_volunteer 
+                  FROM User 
+                  WHERE user_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $this->user_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result->num_rows === 0) {
-            error_log("No user found for user_id: $userId");
-        }
         $profile = $result->fetch_assoc();
         $stmt->close();
-        return $profile;
+
+        return $profile ?: null;
     }
 
-    public function changePassword($userId, $currentPassword, $newPassword) {
-        $stmt = $this->conn->prepare("SELECT password FROM User WHERE user_id = ?");
-        if (!$stmt) {
-            $error = "Prepare failed: " . $this->conn->error;
-            error_log($error);
-            throw new Exception($error);
-        }
-        $stmt->bind_param("i", $userId);
+    public function changePassword($current_password, $new_password) {
+        // Verify current password
+        $query = "SELECT password FROM User WHERE user_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $this->user_id);
         $stmt->execute();
-        $result = $stmt->get_result()->fetch_assoc();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
         $stmt->close();
 
-        if (!$result) {
-            return "User not found.";
+        if (!$user || !password_verify($current_password, $user['password'])) {
+            return ['error' => 'Current password is incorrect'];
         }
 
-        if (!password_verify($currentPassword, $result['password'])) {
-            return "Current password is incorrect.";
-        }
+        // Update password
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $update_query = "UPDATE User SET password = ? WHERE user_id = ?";
+        $update_stmt = $this->conn->prepare($update_query);
+        $update_stmt->bind_param("si", $hashed_password, $this->user_id);
 
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $stmt = $this->conn->prepare("UPDATE User SET password = ? WHERE user_id = ?");
-        if (!$stmt) {
-            $error = "Prepare failed: " . $this->conn->error;
-            error_log($error);
-            throw new Exception($error);
+        if ($update_stmt->execute()) {
+            $update_stmt->close();
+            return ['success' => 'Password changed successfully'];
+        } else {
+            $update_stmt->close();
+            return ['error' => 'Failed to change password'];
         }
-        $stmt->bind_param("si", $hashedPassword, $userId);
-        $success = $stmt->execute();
-        $stmt->close();
-
-        return $success ? true : "Failed to update password.";
     }
 }
-?>
