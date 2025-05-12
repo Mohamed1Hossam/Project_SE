@@ -58,7 +58,7 @@ if($_SESSION['role'] != 'user') {
     </style>
 </head>
 
-<body class="home-page">
+< class="home-page">
     <!-- Header/Navigation -->
     <header>
         <div class="container header-content">
@@ -192,26 +192,5 @@ if($_SESSION['role'] != 'user') {
             </div>
         </div>
     </footer>
-    <script>
-        function handleSearch() {
-          const query = document.getElementById('searchInput').value.trim().toLowerCase();
-      
-          if (!query) {
-            alert("Please enter a search term.");
-            return;
-          }
-      
-          // Redirect based on keyword
-          if (query === "campaign" || query === "campaigns") {
-            window.location.href = "/get_campaign_details.php";
-          } else if (query === "event" || query === "events") {
-            window.location.href = "/get_event_details.php";
-          } else {
-            alert("Please search for 'campaign' or 'events'.");
-          }
-        }
-      </script>
-  
-</body>
 </body>
 </html>

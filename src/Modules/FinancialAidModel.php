@@ -6,12 +6,10 @@ class FinancialAidModel {
     public function __construct() {
         // Database connection can be initialized here if needed
         $this->initializeMailer();
-    }
-
-    private function initializeMailer() {
-        require_once 'includes/PHPMailer/src/Exception.php';
-        require_once 'includes/PHPMailer/src/PHPMailer.php';
-        require_once 'includes/PHPMailer/src/SMTP.php';
+    }    private function initializeMailer() {
+        require_once __DIR__ . '/../includes/PHPMailer/src/Exception.php';
+        require_once __DIR__ . '/../includes/PHPMailer/src/PHPMailer.php';
+        require_once __DIR__ . '/../includes/PHPMailer/src/SMTP.php';
 
         $this->mailer = new PHPMailer\PHPMailer\PHPMailer(true);
         $this->mailer->isSMTP();
@@ -48,7 +46,7 @@ class FinancialAidModel {
     private function sendAdminEmail($data) {
         $this->mailer->clearAddresses();
         $this->mailer->setFrom('noreply@childerenoftheland.org', 'childerenoftheland');
-        $this->mailer->addAddress('mahmoudmohamedds20@gmail.com');
+        $this->mailer->addAddress('minaessam1810@gmail.com');
         $this->mailer->addReplyTo($data['email'], $data['fullName']);
         
         $this->mailer->isHTML(true);
@@ -95,7 +93,14 @@ class FinancialAidModel {
                         <span class='label'>Phone Number:</span> {$data['phone']}
                     </div>
                     <div class='section'>
-                        <span class='label'>Amount Requested:</span> ${$data['amount']}
+                        <span class='label'>Amount Requested:</span> $" . number_format($data['amount'], 2) . "
+                    </div>
+                    <div class='section'>
+                        <span class='label'>Reason:</span> {$data['reason']}
+                    </div>
+                    <div class='section'>
+                        <span class='label'>Additional Details:</span><br>
+                        " . nl2br(htmlspecialchars($data['description'] ?? 'No additional details provided')) . "
                     </div>
                 </div>
             </div>
@@ -120,7 +125,10 @@ class FinancialAidModel {
                 <h2>Financial Aid Request Confirmation</h2>
                 <p>Dear {$data['fullName']},</p>
                 <p>Thank you for submitting your financial aid request to childerenoftheland. We have received your application for financial assistance.</p>
-                <p><strong>Amount Requested:</strong> ${$data['amount']}</p>
+                <p><strong>Amount Requested:</strong> $" . number_format($data['amount'], 2) . "</p>
+                <p><strong>Reason for Request:</strong> {$data['reason']}</p>
+                <p><strong>Additional Details:</strong><br>
+                " . nl2br(htmlspecialchars($data['description'] ?? 'No additional details provided')) . "</p>
                 <p>Our team will review your request and contact you shortly via email or phone.</p>
                 <p>Warm regards,<br>
                 The childerenoftheland Team</p>

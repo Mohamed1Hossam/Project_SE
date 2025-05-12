@@ -436,3 +436,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+function handleSearch() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  if (!query) {
+    alert("Please enter a search term.");
+    return;
+  }
+
+  // Redirect based on keyword
+  if (query === "campaign" || query === "campaigns") {
+    window.location.href = "views/campaign_details.php";
+  } else if (query === "event" || query === "events") {
+    window.location.href = "views/event_details.php";
+  } else {
+    alert("Please search for 'campaign' or 'events'.");
+  }
+}
