@@ -1,6 +1,15 @@
 <?php
 require 'db.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+if($_SESSION['role'] != 'admin') {
+  header('location: ../Views/login.php');
+  exit;
+}
+
 // Fetch total volunteers
 $volunteerCount = $pdo->query("SELECT COUNT(*) FROM volunteer")->fetchColumn();
 

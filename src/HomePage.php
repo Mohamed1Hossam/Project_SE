@@ -1,3 +1,14 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+if($_SESSION['role'] != 'user') {
+  header('location: Views/login.php');
+  exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,6 +107,10 @@
                 <a href="Views/profileView.php">
                     <div class="icon-user"></div>
                     <span>Profile</span>
+                    <a   href="Controllers/logout.php">
+                    <div class="icon-user"></div>
+                    <span>logout</span>
+                </a>
                 </a>
             </nav>
         </div>
